@@ -8,6 +8,7 @@ The home page for [Cronomicon](https://github.com/ResetSmith/cronomicon). It is 
 |------|------|
 | `index.html` | The page |
 | `404.html` | GitHub Pages serves this for unknown paths |
+| `docs/` | The Cronomicon manuals and guides. Only `docs/index.html`, the landing page, is maintained here; every other file is copied in by the app repo's publish workflow on each release tag (see below) |
 | `assets/css/site.css` | Styles, including the `@font-face` blocks. Tokens match the app's `theme.ts` and the manuals' light palette |
 | `assets/js/site.js` | Theme toggle, product tour tabs, copy buttons, workflow replay, and the Score timeline |
 | `assets/fonts/` | WOFF2 subsets copied from `frontend/public/fonts/` (SIL OFL, licence included) |
@@ -25,6 +26,34 @@ python3 -m http.server 8000
 ```
 
 Open it over HTTP, not `file://`. The 404 page uses root-relative paths, and some browsers block local video over `file://`.
+
+## The docs section
+
+`docs/` holds the latest release's manuals. The app repository's
+`.github/workflows/publish-images.yml` (its `docs` job) rebuilds them from the
+release tag and syncs them into `docs/` here with `rsync --delete`, excluding
+`docs/index.html`, then commits and pushes to `main`, so Pages redeploys. Edit
+the manuals in the app repository, never here: the next release overwrites
+them. Anything else you put in `docs/` is deleted by the next sync.
+
+The job pushes with a deploy key. To set it up once:
+
+```bash
+ssh-keygen -t ed25519 -N "" -C "cronomicon docs publish" -f cronomicon-docs-key
+```
+
+1. In **this** repository: **Settings → Deploy keys → Add deploy key**. Paste
+   `cronomicon-docs-key.pub`, and tick **Allow write access**.
+2. In **`ResetSmith/cronomicon`**: **Settings → Secrets and variables →
+   Actions → New repository secret**, named `DOCS_DEPLOY_KEY`, containing the
+   whole private key file `cronomicon-docs-key`.
+3. Delete both local key files.
+
+Without the secret, the job still creates the GitHub Release and its docs zip,
+and warns that it skipped the site.
+
+The version shown on the landing page (the release chip, the deploy command and
+`softwareVersion` in the JSON-LD) is edited by hand per release.
 
 ## Publish on GitHub Pages
 

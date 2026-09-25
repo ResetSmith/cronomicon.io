@@ -34,7 +34,7 @@
   </script>
 
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Cronomicon","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, Windows (runners)","softwareVersion":"2.0.1","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://cronomicon.io/","codeRepository":"https://github.com/ResetSmith/cronomicon","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Cronomicon","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, Windows (runners)","softwareVersion":"2.0.3","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://cronomicon.io/","codeRepository":"https://github.com/ResetSmith/cronomicon","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
 </head>
 <body>
@@ -82,6 +82,7 @@
       <li><a href="#runners">Runners</a></li>
       <li><a href="#governance">Security</a></li>
       <li><a href="#deploy">Deploy</a></li>
+      <li><a href="docs/">Docs</a></li>
     </ul>
     <div class="nav-actions">
       <button class="icon-btn theme-toggle" type="button" id="theme-toggle" aria-label="Switch colour theme">
@@ -106,7 +107,7 @@
           <a class="btn btn-primary" href="https://github.com/ResetSmith/cronomicon"><svg><use href="#i-github"/></svg>Get Cronomicon</a>
           <a class="btn btn-ghost" href="#tour">Take the tour</a>
         </div>
-        <a class="release-link" href="https://github.com/ResetSmith/cronomicon/blob/release/CHANGELOG.md"><span class="tag">v2.0.1</span>Latest release notes</a>
+        <a class="release-link" href="https://github.com/ResetSmith/cronomicon/releases/latest"><span class="tag">v2.0.3</span>Latest release notes</a>
       </div>
       <div class="hero-emblem">
         <svg class="bezel" viewBox="0 0 400 400" aria-hidden="true" id="bezel"></svg>
@@ -576,19 +577,17 @@
   <div class="wrap">
     <div class="band-head">
       <h2 id="dep-h">One binary. One database file.</h2>
-      <p>The API, scheduler and web UI are one Go process backed by a single SQLite file, with no message broker or separate database server. Run it as a container behind your reverse proxy and identity provider.</p>
+      <p>The API, scheduler and web UI are one Go process backed by a single SQLite file, with no message broker or separate database server. Run it as a container behind your reverse proxy and identity provider. The <a href="docs/administrator-manual.html#deployment">administrator manual</a> walks through a first deploy.</p>
     </div>
 
     <div class="deploy">
       <div class="stack">
       <div class="code">
-        <div class="code-bar"><span>Build and run</span><button class="copy-btn" type="button" data-copy="deploy-cmd"><svg><use href="#i-copy"/></svg><span>Copy</span></button></div>
-<pre id="deploy-cmd" tabindex="0" aria-label="Commands to build and run Cronomicon"><span class="prompt">$ </span>git clone https://github.com/ResetSmith/cronomicon.git
-<span class="prompt">$ </span>cd cronomicon
-<span class="prompt">$ </span>docker build -f backend/Dockerfile -t cronomicon:latest .
-<span class="prompt">$ </span>docker run -d -p 8080:8080 \
+        <div class="code-bar"><span>Run the image</span><button class="copy-btn" type="button" data-copy="deploy-cmd"><svg><use href="#i-copy"/></svg><span>Copy</span></button></div>
+<pre id="deploy-cmd" tabindex="0" aria-label="Command to run the Cronomicon container image"><span class="prompt">$ </span>docker run -d -p 8080:8080 \
     -v /var/lib/cronomicon:/var/lib/cronomicon \
-    --env-file cronomicon.env cronomicon:latest</pre>
+    --env-file cronomicon.env \
+    ghcr.io/resetsmith/cronomicon:2.0.3</pre>
       </div>
       <div class="code">
         <div class="code-bar"><span>Add a runner</span><span class="src">token from Runners, single use</span></div>
@@ -614,10 +613,10 @@
   <div class="wrap closing-inner">
     <div>
       <h2 id="close-h">Retire the crontabs.</h2>
-      <p>The source, the administrator and user manuals, and a runner install guide are all in the repository. Cronomicon is free to run, change and share under the Apache-2.0 license.</p>
+      <p>Read the administrator and user manuals before you deploy, then pull the images or build from source. Cronomicon is free to run, change and share under the Apache-2.0 license.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="https://github.com/ResetSmith/cronomicon"><svg><use href="#i-github"/></svg>View on GitHub</a>
-        <a class="btn btn-ghost" href="https://github.com/ResetSmith/cronomicon/blob/release/CHANGELOG.md">Read the changelog</a>
+        <a class="btn btn-ghost" href="docs/">Read the docs</a>
       </div>
     </div>
     <figure class="crontab" aria-label="An old crontab file with every job line struck through">
@@ -644,7 +643,7 @@ MAILTO=""</span>
     <nav aria-label="Footer">
       <a href="https://github.com/ResetSmith/cronomicon">Source</a>
       <a href="https://github.com/ResetSmith/cronomicon/blob/release/CHANGELOG.md">Changelog</a>
-      <a href="https://github.com/ResetSmith/cronomicon/tree/release/documentation">Documentation</a>
+      <a href="docs/">Documentation</a>
       <a href="https://github.com/ResetSmith/cronomicon/issues">Issues</a>
       <a href="https://github.com/ResetSmith/cronomicon/blob/release/LICENSE">License</a>
     </nav>
