@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cronomicon, the script orchestrator</title>
+  <meta name="description" content="Cronomicon schedules and runs Bash, Ansible, Terraform, PowerShell, Perl and Python jobs from one web console, across every host, department and network zone. One Go binary, one SQLite file. Open source, Apache-2.0.">
+  <meta name="theme-color" content="#0a1119" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f4f6fa" media="(prefers-color-scheme: light)">
+  <link rel="canonical" href="https://cronomicon.io/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cronomicon">
+  <meta property="og:title" content="Cronomicon: ancient rites of scheduling, made easy">
+  <meta property="og:description" content="Schedule and orchestrate Bash, Ansible, Terraform, PowerShell, Perl and Python jobs from one binary.">
+  <meta property="og:url" content="https://cronomicon.io/">
+  <meta property="og:image" content="https://cronomicon.io/assets/img/og-image.png">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="640">
+  <meta property="og:image:alt" content="The Cronomicon emblem, a hooded figure holding a glowing book, beside the wordmark">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="assets/img/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <link rel="preload" href="assets/fonts/fraunces-400-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/plex-sans-400-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script>
+    // Apply a remembered theme before first paint so the page never flashes.
+    try { var t = localStorage.getItem("crn-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Cronomicon","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, Windows (runners)","softwareVersion":"2.0.1","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://cronomicon.io/","codeRepository":"https://github.com/ResetSmith/cronomicon","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Inline icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2 12h2.2M19.8 12H22M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5a1.5 1.5 0 0 0-1.5-1.5H5A1.5 1.5 0 0 0 3.5 5v9A1.5 1.5 0 0 0 5 15.5h3.5"/></symbol>
+    <symbol id="i-play" viewBox="0 0 12 12"><path fill="currentColor" d="M2.5 1.5v9l8-4.5z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 12 12"><path fill="currentColor" d="M2.5 1.5h2.5v9H2.5zM7 1.5h2.5v9H7z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <!-- origins -->
+    <symbol id="o-cron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+    <symbol id="o-click" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="m6 4 12 7-5.2 1.3L10.5 18Z"/><path d="M13 13.3l4 4" stroke-linecap="round"/></symbol>
+    <symbol id="o-git" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="6.5" cy="6" r="2.2"/><circle cx="6.5" cy="18" r="2.2"/><circle cx="17.5" cy="9" r="2.2"/><path d="M6.5 8.2v7.6M17.5 11.2c0 3-3 3.6-9.4 5.4"/></symbol>
+    <symbol id="o-token" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v2.5"/></symbol>
+    <symbol id="o-react" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.5"/><path d="M20 4v4.5h-4.5"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 15.5"/><path d="M4 20v-4.5h4.5"/></symbol>
+    <symbol id="o-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6Z"/><path d="M14 3v4h4"/><path d="M12 11v6M9.5 14.5 12 17l2.5-2.5" stroke-linecap="round"/></symbol>
+    <symbol id="g-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.1 7.5 9.5 4.4-1.4 7.5-4.9 7.5-9.5V6Z"/></symbol>
+    <!-- governance -->
+    <symbol id="v-agency" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1" stroke-dasharray="2 2"/></symbol>
+    <symbol id="v-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="15" r="4.5"/><path d="m11.2 11.8 8.3-8.3M16.5 6.5l2.5 2.5M14 9l2 2"/></symbol>
+    <symbol id="v-mask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 6h9M3 12h4M3 18h11"/><rect x="9" y="10" width="12" height="4" rx="1" fill="currentColor" stroke="none" opacity=".85"/></symbol>
+    <symbol id="v-log" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v15H5Z"/><path d="M8.5 9h7M8.5 13h7M8.5 17h4"/></symbol>
+    <symbol id="v-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="1.5"/><path d="M3.5 9.5h17M8 3v4M16 3v4M9.5 13.5l5 5M14.5 13.5l-5 5"/></symbol>
+    <symbol id="v-bin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6.5h16M9 6.5V4h6v2.5M6 6.5l1 14h10l1-14"/><path d="M12 10.5v6M9.5 13 12 10.5l2.5 2.5"/></symbol>
+  </defs>
+</svg>
+
+<header class="site-header" id="top">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Cronomicon home">
+      <img src="assets/img/emblem-80.webp" srcset="assets/img/emblem-80.webp 80w, assets/img/emblem-160.webp 160w" sizes="37px" alt="" width="37" height="38">
+      <span class="wordmark">CRONOMICON</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#tour">Tour</a></li>
+      <li><a href="#compose">How it works</a></li>
+      <li><a href="#workflows">Workflows</a></li>
+      <li><a href="#runners">Runners</a></li>
+      <li><a href="#governance">Security</a></li>
+      <li><a href="#deploy">Deploy</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" type="button" id="theme-toggle" aria-label="Switch colour theme">
+        <svg class="sun"><use href="#i-sun"/></svg><svg class="moon"><use href="#i-moon"/></svg>
+      </button>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/ResetSmith/cronomicon"><svg><use href="#i-github"/></svg>GitHub</a>
+      <button class="icon-btn menu-btn" type="button" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><svg><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ Hero ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>Ancient rites of scheduling, made easy.</h1>
+        <p class="lede">Cronomicon schedules and runs your <strong>Bash, Ansible, Terraform, PowerShell, Perl and Python</strong> jobs from one web console, across every host, department and network zone. It ships as one Go binary with one SQLite file, and it’s open source.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://github.com/ResetSmith/cronomicon"><svg><use href="#i-github"/></svg>Get Cronomicon</a>
+          <a class="btn btn-ghost" href="#tour">Take the tour</a>
+        </div>
+        <a class="release-link" href="https://github.com/ResetSmith/cronomicon/blob/release/CHANGELOG.md"><span class="tag">v2.0.1</span>Latest release notes</a>
+      </div>
+      <div class="hero-emblem">
+        <svg class="bezel" viewBox="0 0 400 400" aria-hidden="true" id="bezel"></svg>
+        <img src="assets/img/emblem-480.webp" srcset="assets/img/emblem-320.webp 320w, assets/img/emblem-480.webp 480w, assets/img/emblem-640.webp 640w" sizes="(max-width: 820px) 120px, 272px" alt="The Cronomicon emblem: a hooded figure reading a glowing book, framed by gears and an infinity loop" width="618" height="640" fetchpriority="high">
+      </div>
+    </div>
+
+    <div class="score-stage">
+      <figure class="score" id="score" aria-labelledby="score-title" style="margin:0">
+        <div class="score-head">
+          <h2 class="score-title" id="score-title">Score</h2>
+          <span class="score-sub">last 24 hours and next 12, in time-lapse</span>
+          <span class="score-clock" id="score-clock" aria-hidden="true"></span>
+          <ul class="score-legend" aria-hidden="true">
+            <li><span class="dot success"></span>Success</li>
+            <li><span class="dot warn"></span>Warn</li>
+            <li><span class="dot failed"></span>Failed</li>
+            <li><span class="dot running"></span>Running</li>
+            <li><span class="dot scheduled"></span>Scheduled</li>
+          </ul>
+          <button class="score-ctl" type="button" id="score-toggle" aria-pressed="false">
+            <svg class="i-pause"><use href="#i-pause"/></svg><svg class="i-play"><use href="#i-play"/></svg><span>Pause</span>
+          </button>
+        </div>
+        <div class="score-canvas" id="score-canvas">
+          <svg id="score-svg" role="img" aria-label="Timeline of scheduled job runs. Past runs are filled dots coloured by result; upcoming runs are hollow rings to the right of the gold 'now' line."></svg>
+          <div class="score-tip" id="score-tip" role="presentation"></div>
+        </div>
+        <figcaption class="score-foot">
+          <span class="ticker" id="ticker" aria-hidden="true">&nbsp;</span>
+          <span>The Dashboard’s timeline, running nine sample jobs at 600× speed. Hover a mark to inspect it.</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="langs">
+      <span>Runs what your team already writes:</span>
+      <ul>
+        <li class="lang" style="--c:#45b26b"><i></i>bash</li>
+        <li class="lang" style="--c:#e05a5a"><i></i>ansible</li>
+        <li class="lang" style="--c:#8f6ad8"><i></i>terraform</li>
+        <li class="lang" style="--c:#4da3d9"><i></i>powershell</li>
+        <li class="lang" style="--c:#7d8fd6"><i></i>perl</li>
+        <li class="lang" style="--c:#e3c14d"><i></i>python</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Tour ============ -->
+<section class="band" id="tour" aria-labelledby="tour-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="tour-h">Every job, every run, one console</h2>
+      <p>Cronomicon replaces the crontabs scattered across your servers with a single place to see what runs, when, where, and how it went. Here’s the real app, in both themes.</p>
+    </div>
+
+    <div class="tour">
+      <div class="tour-tabs" role="tablist" aria-label="Product tour" aria-orientation="vertical">
+        <button class="tour-tab" role="tab" id="tab-walk" aria-controls="panel-walk" aria-selected="true">Walkthrough<small>40 seconds, start to finish</small></button>
+        <button class="tour-tab" role="tab" id="tab-dash" aria-controls="panel-dash" aria-selected="false" tabindex="-1">Dashboard<small>What needs attention now</small></button>
+        <button class="tour-tab" role="tab" id="tab-jobs" aria-controls="panel-jobs" aria-selected="false" tabindex="-1">Jobs<small>The catalog and its schedules</small></button>
+        <button class="tour-tab" role="tab" id="tab-detail" aria-controls="panel-detail" aria-selected="false" tabindex="-1">Job detail<small>Notes, trends and analytics</small></button>
+        <button class="tour-tab" role="tab" id="tab-run" aria-controls="panel-run" aria-selected="false" tabindex="-1">Run dialog<small>Review before anything runs</small></button>
+        <button class="tour-tab" role="tab" id="tab-hist" aria-controls="panel-hist" aria-selected="false" tabindex="-1">History<small>Every run, traced</small></button>
+        <button class="tour-tab" role="tab" id="tab-sched" aria-controls="panel-sched" aria-selected="false" tabindex="-1">Schedules<small>What fires next</small></button>
+        <button class="tour-tab" role="tab" id="tab-run2" aria-controls="panel-runners" aria-selected="false" tabindex="-1">Runners<small>Your execution fleet</small></button>
+      </div>
+
+      <div>
+        <div class="tour-panel" role="tabpanel" id="panel-walk" aria-labelledby="tab-walk">
+          <div class="frame">
+            <video id="walk-video" muted loop playsinline preload="metadata" poster="assets/media/walkthrough-poster.webp" aria-label="Screen recording in dark mode: the Dashboard, the Jobs catalog, a run started and confirmed from the Run dialog, a switch to light mode, a run expanded in History, and a workflow’s steps">
+              <source src="assets/media/walkthrough.webm" type="video/webm">
+              <source src="assets/media/walkthrough.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="tour-caption">
+            <p>Start on the Dashboard, open a job in the catalog and run it: the Run dialog shows the targets, then asks you to confirm. Flip to light mode, open a run in <strong>History</strong>, and finish on a workflow’s steps.</p>
+            <button class="btn btn-ghost btn-sm" type="button" id="walk-toggle" aria-pressed="false">Play</button>
+          </div>
+        </div>
+
+        <div class="tour-panel" role="tabpanel" id="panel-dash" aria-labelledby="tab-dash" hidden>
+          <div class="frame">
+            <img class="only-dark" loading="lazy" src="assets/img/shots/dashboard-dark.webp" width="2400" height="1500" alt="Cronomicon Dashboard in dark mode: an attention banner reporting 3 jobs, stat tiles, and the Score timeline with past runs and upcoming fires">
+            <img class="only-light" loading="lazy" src="assets/img/shots/dashboard-light.webp" width="2400" height="1500" alt="Cronomicon Dashboard in light mode: an attention banner reporting 3 jobs, stat tiles, and the Score timeline with past runs and upcoming fires">
+          </div>
+          <div class="tour-caption"><p>The <strong>Dashboard</strong> opens with what needs you. Failures and warnings from the last 24 hours sit in one banner, and the Score lays out the day behind you and the twelve hours ahead. Up next lists the next three fires.</p></div>
+        </div>
+
+        <div class="tour-panel" role="tabpanel" id="panel-jobs" aria-labelledby="tab-jobs" hidden>
+          <div class="frame">
+            <img class="only-dark" loading="lazy" src="assets/img/shots/jobs-dark.webp" width="2400" height="1500" alt="Jobs catalog in dark mode listing thirteen jobs with type, scope, agency, host, cron schedule, tags, status and source">
+            <img class="only-light" loading="lazy" src="assets/img/shots/jobs-light.webp" width="2400" height="1500" alt="Jobs catalog in light mode listing thirteen jobs with type, scope, agency, host, cron schedule, tags, status and source">
+          </div>
+          <div class="tour-caption"><p>The <strong>Jobs</strong> catalog shows each job’s type, scope, owning department, host pin, cron schedule and last result. Filter it by tag, choose your columns, and browse jobs as a folder tree when the list gets long.</p></div>
+        </div>
+
+        <div class="tour-panel" role="tabpanel" id="panel-detail" aria-labelledby="tab-detail" hidden>
+          <div class="frame">
+            <img class="only-dark" loading="lazy" src="assets/img/shots/job-detail-dark.webp" width="2400" height="1500" alt="An expanded job in dark mode showing executor, SSH key, duration trend, success rate, median and p95 duration, and recent runs">
+            <img class="only-light" loading="lazy" src="assets/img/shots/job-detail-light.webp" width="2400" height="1500" alt="An expanded job in light mode showing executor, SSH key, duration trend, success rate, median and p95 duration, and recent runs">
+          </div>
+          <div class="tour-caption"><p>Expand any job to see its <strong>duration trend</strong>, success rate and p95 over 7, 30 or 90 days, plus its recent runs. On-call notes, a contact and a critical flag stay attached to the job, so the next person sees them before they press Run.</p></div>
+        </div>
+
+        <div class="tour-panel" role="tabpanel" id="panel-run" aria-labelledby="tab-run" hidden>
+          <div class="frame">
+            <img class="only-dark" loading="lazy" src="assets/img/shots/run-dialog-dark.webp" width="2400" height="1500" alt="The Run dialog in dark mode with Inputs, Targets, Method, Timing and Advanced sections and a This run summary rail">
+            <img class="only-light" loading="lazy" src="assets/img/shots/run-dialog-light.webp" width="2400" height="1500" alt="The Run dialog in light mode with Inputs, Targets, Method, Timing and Advanced sections and a This run summary rail">
+          </div>
+          <div class="tour-caption"><p>Every ad-hoc run goes through the <strong>Run dialog</strong>. It has five sections: inputs, target hosts, executor and runner, timing, and advanced overrides. The rail on the right shows exactly what will run before you confirm, and a run can be deferred to a later time.</p></div>
+        </div>
+
+        <div class="tour-panel" role="tabpanel" id="panel-hist" aria-labelledby="tab-hist" hidden>
+          <div class="frame">
+            <img class="only-dark" loading="lazy" src="assets/img/shots/history-drawer-dark.webp" width="2400" height="1500" alt="History in dark mode with an expanded run showing trace ID, result, exit code, duration, trigger, schedule and scope, above a list of runs">
+            <img class="only-light" loading="lazy" src="assets/img/shots/history-drawer-light.webp" width="2400" height="1500" alt="History in light mode with an expanded run showing trace ID, result, exit code, duration, trigger, schedule and scope, above a list of runs">
+          </div>
+          <div class="tour-caption"><p><strong>History</strong> records every run with a trace ID, exit code, who or what triggered it, and where it ran. Logs tail live while a job runs, secrets are masked, and old logs can move to S3 without leaving the view.</p></div>
+        </div>
+
+        <div class="tour-panel" role="tabpanel" id="panel-sched" aria-labelledby="tab-sched" hidden>
+          <div class="frame">
+            <img class="only-dark" loading="lazy" src="assets/img/shots/schedules-dark.webp" width="2400" height="1500" alt="Schedules view in dark mode on the Upcoming tab, listing projected fires for the next 24 hours with owner, schedule and cron">
+            <img class="only-light" loading="lazy" src="assets/img/shots/schedules-light.webp" width="2400" height="1500" alt="Schedules view in light mode on the Upcoming tab, listing projected fires for the next 24 hours with owner, schedule and cron">
+          </div>
+          <div class="tour-caption"><p><strong>Schedules</strong> are reusable, so one definition can drive many jobs. The Upcoming tab projects every fire for the next day or week. Working calendars and reactions have their own tabs next to it.</p></div>
+        </div>
+
+        <div class="tour-panel" role="tabpanel" id="panel-runners" aria-labelledby="tab-run2" hidden>
+          <div class="frame">
+            <img class="only-dark" loading="lazy" src="assets/img/shots/runners-dark.webp" width="2400" height="1500" alt="Runners view in dark mode: five runners with status, operating system, capability chips, agencies, load and last-seen time">
+            <img class="only-light" loading="lazy" src="assets/img/shots/runners-light.webp" width="2400" height="1500" alt="Runners view in light mode: five runners with status, operating system, capability chips, agencies, load and last-seen time">
+          </div>
+          <div class="tour-caption"><p><strong>Runners</strong> report their capabilities (Ansible version, collections, Vault access, Python) and their load. They can be drained or recovered from the console. To add one, mint a single-use token and paste one command on the host.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Compose ============ -->
+<section class="band" id="compose" aria-labelledby="compose-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="compose-h">Build jobs from parts you already have</h2>
+      <p>Scripts, schedules and variables are separate, reusable pieces. Put them together into a job, then chain jobs into a workflow. Change a schedule once and every job that uses it follows.</p>
+    </div>
+
+    <div class="compose">
+      <ol class="steps">
+        <li>
+          <h3>Register a script</h3>
+          <p>A playbook, a <code>.tf</code> directory or a shell script. Cronomicon scans it for the environment variables it reads, so you know what to define before the first run.</p>
+          <div class="parts"><span class="part">backup-db.sh</span><span class="part">patch.yml</span><span class="part">plan.tf</span></div>
+        </li>
+        <li>
+          <h3>Bind it to a scope and a schedule</h3>
+          <p>A scope is the set of hosts a job may touch. A schedule is a cron expression with an optional activation window. Both are reusable.</p>
+          <div class="parts"><span class="part">Production</span><span class="part">0 2 * * *</span><span class="part">business-hours</span></div>
+        </li>
+        <li>
+          <h3>Attach variables and secrets by reference</h3>
+          <p>A job names the variables it needs and never holds their values. Values are resolved when the job is dispatched, from Cronomicon’s encrypted store or from HashiCorp Vault.</p>
+          <div class="parts"><span class="part">DB_HOST</span><span class="part">vault:db/backup</span></div>
+        </li>
+        <li>
+          <h3>Run it, or chain it</h3>
+          <p>The job is live. Add it to a workflow with other jobs, with branches, parallel groups and values passed from one step to the next.</p>
+          <div class="parts"><span class="part gold">nightly-db-backup</span></div>
+        </li>
+      </ol>
+
+      <div>
+        <div class="code">
+          <div class="code-bar"><span>jobs/nightly-db-backup.yaml</span><span class="src">Git <span class="src-badge git">git</span></span></div>
+<pre tabindex="0" aria-label="Example job definition in YAML"><span class="k">apiVersion</span>: cronomicon.io/v1
+<span class="k">kind</span>: Job
+<span class="k">metadata</span>:
+  <span class="k">name</span>: <span class="v">nightly-db-backup</span>
+<span class="k">spec</span>:
+  <span class="k">script_ref</span>: backup-db.sh
+  <span class="k">scope</span>: Production        <span class="c"># where it runs</span>
+  <span class="k">schedules</span>:
+    - <span class="k">name</span>: nightly
+      <span class="k">cron</span>: <span class="s">"0 2 * * *"</span>     <span class="c"># when it runs</span>
+  <span class="k">timeout_seconds</span>: 3600
+  <span class="k">retries</span>: 2</pre>
+        </div>
+        <div class="dual">
+          <div><b>Keep it in Git <span class="src-badge git">git</span></b>Definitions sync from a GitLab repository on push. Validate them in CI with <code>cronomicon validate</code>, and review changes like any other code.</div>
+          <div><b>Or compose it in the app <span class="src-badge app">cronomicon</span></b>Build jobs, workflows and schedules in the browser and they go live immediately. Every edit keeps a revision you can restore.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Triggers ============ -->
+<section class="band" id="triggers" aria-labelledby="triggers-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="triggers-h">Six ways to start a run, one set of rules</h2>
+      <p>Cron is only the beginning. Every source that can start a run passes through the same gates, so a paused job stays paused however it’s triggered.</p>
+    </div>
+
+    <div class="triggers">
+      <ul class="origin-list">
+        <li><svg><use href="#o-cron"/></svg><div><h3>A schedule</h3><p>Cron with activation windows, intervals and one-off runs.</p></div><code>0 */4 * * *</code></li>
+        <li><svg><use href="#o-click"/></svg><div><h3>A click</h3><p>Run now or later from the Run dialog, with per-run overrides.</p></div><code>Run now</code></li>
+        <li><svg><use href="#o-git"/></svg><div><h3>A Git push</h3><p>A GitLab webhook syncs definitions the moment they merge.</p></div><code>git push</code></li>
+        <li><svg><use href="#o-token"/></svg><div><h3>An API token</h3><p>Service accounts trigger runs from CI or other tools.</p></div><code>POST /trigger/…</code></li>
+        <li><svg><use href="#o-react"/></svg><div><h3>Another run finishing</h3><p>Reactions fire when a job or workflow succeeds, fails or is stopped.</p></div><code>when a run fails</code></li>
+        <li><svg><use href="#o-file"/></svg><div><h3>A file arriving</h3><p>Runners watch drop directories, including NFS and CIFS shares.</p></div><code>/drop/*.csv</code></li>
+      </ul>
+
+      <aside class="gates" aria-labelledby="gates-h">
+        <h3 id="gates-h">The gates</h3>
+        <p>Each trigger type goes through the gates that apply to it before a run is queued. A refused run is recorded with the reason, never silently dropped.</p>
+        <div class="gate"><svg><use href="#i-check"/></svg><div><b>Pause and freeze</b><span>Stop one job, or everything, for a maintenance window.</span></div></div>
+        <div class="gate"><svg><use href="#i-check"/></svg><div><b>Working calendars</b><span>Skip holidays and blackout dates. A calendar can only prevent runs, never cause them.</span></div></div>
+        <div class="gate"><svg><use href="#i-check"/></svg><div><b>Fleet capacity</b><span>Cap concurrent runs, then queue, skip or run in parallel per job.</span></div></div>
+        <div class="gate"><svg><use href="#i-check"/></svg><div><b>Enabled and in use</b><span>No trigger can start a disabled job or one in the recycle bin.</span></div></div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Workflows ============ -->
+<section class="band alt" id="workflows" aria-labelledby="wf-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="wf-h">Chain jobs into workflows</h2>
+      <p>Put jobs in order, branch on the result, and run steps in parallel. Each step can pass its output to the next. Draw a workflow on a graph canvas or write it in YAML.</p>
+    </div>
+
+    <div class="wf-layout">
+      <div class="diagram">
+        <div class="diagram-head">
+          <span class="name">prod-release</span><span class="wf-meta">5 steps, started by hand</span>
+          <span class="wf-status" id="wf-status">Last run: success in 6m 41s</span>
+          <button class="btn btn-ghost btn-sm" type="button" id="wf-run"><svg style="width:12px;height:12px"><use href="#i-play"/></svg>Run workflow</button>
+        </div>
+        <div class="diagram-scroll" tabindex="0" role="region" aria-label="Workflow diagram, scrollable">
+          <svg class="wf" id="wf" viewBox="0 0 960 276" role="img" aria-labelledby="wf-title">
+            <title id="wf-title">Workflow graph: terraform-plan-prod runs first. On success, terraform-apply-prod runs with the VERSION output from the plan, then smoke-test and disk-usage-audit run in parallel. On failure, notify-oncall runs instead.</title>
+            <defs>
+              <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrow" d="M0 0 10 5 0 10z"/></marker>
+              <marker id="ah-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrow gold" d="M0 0 10 5 0 10z"/></marker>
+              <marker id="ah-danger" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrow danger" d="M0 0 10 5 0 10z"/></marker>
+            </defs>
+            <!-- edges -->
+            <path class="d-edge" d="M226 165 H270" marker-end="url(#ah)"/>
+            <path class="d-edge gold" d="M300 139 V112 Q300 92 320 92 H376" marker-end="url(#ah-gold)"/>
+            <text class="d-label gold" x="308" y="80">On success</text>
+            <path class="d-edge danger" d="M300 191 V218 Q300 238 320 238 H376" marker-end="url(#ah-danger)"/>
+            <text class="d-label danger" x="308" y="262">On failure</text>
+            <path class="d-edge" d="M600 92 H628 Q642 92 642 78 V70 Q642 56 656 56 H678" marker-end="url(#ah)"/>
+            <path class="d-edge" d="M628 92 Q642 92 642 106 V114 Q642 128 656 128 H678" marker-end="url(#ah)"/>
+            <!-- branch -->
+            <rect class="d-diamond" x="282" y="147" width="36" height="36" rx="3" transform="rotate(45 300 165)"/>
+                        <!-- parallel group -->
+            <rect class="d-group" x="662" y="22" width="284" height="140" rx="8"/>
+            <text class="d-label" x="678" y="16">Parallel group</text>
+
+            <g class="step" data-step="plan">
+              <rect class="d-halo" x="22" y="135" width="208" height="60" rx="6"/>
+              <rect class="d-node" x="24" y="137" width="202" height="56" rx="4"/>
+              <rect class="d-type" x="24" y="137" width="4" height="56" fill="#8f6ad8"/>
+              <circle class="d-status success" cx="206" cy="155" r="5"/>
+              <text class="d-title mono" x="42" y="160">terraform-plan-prod</text>
+              <text class="d-sub" x="42" y="179">Terraform, emits VERSION</text>
+            </g>
+            <g class="step" data-step="apply">
+              <rect class="d-halo" x="378" y="62" width="224" height="60" rx="6"/>
+              <rect class="d-node" x="380" y="64" width="220" height="56" rx="4"/>
+              <rect class="d-type" x="380" y="64" width="4" height="56" fill="#8f6ad8"/>
+              <circle class="d-status success" cx="580" cy="82" r="5"/>
+              <text class="d-title mono" x="398" y="87">terraform-apply-prod</text>
+              <text class="d-sub" x="398" y="106">Terraform, reads VERSION=1.4.2</text>
+            </g>
+            <g class="step" data-step="notify">
+              <rect class="d-halo" x="378" y="208" width="224" height="60" rx="6"/>
+              <rect class="d-node" x="380" y="210" width="220" height="56" rx="4"/>
+              <rect class="d-type" x="380" y="210" width="4" height="56" fill="#45b26b"/>
+              <circle class="d-status skipped" cx="580" cy="228" r="5"/>
+              <text class="d-title mono" x="398" y="233">notify-oncall</text>
+              <text class="d-sub" x="398" y="252">Bash, only if the plan fails</text>
+            </g>
+            <g class="step" data-step="smoke">
+              <rect class="d-halo" x="680" y="32" width="248" height="52" rx="6"/>
+              <rect class="d-node" x="682" y="34" width="244" height="48" rx="4"/>
+              <rect class="d-type" x="682" y="34" width="4" height="48" fill="#e3c14d"/>
+              <circle class="d-status success" cx="906" cy="50" r="5"/>
+              <text class="d-title mono" x="700" y="55">smoke-test</text>
+              <text class="d-sub" x="700" y="72">Python, 2 retries</text>
+            </g>
+            <g class="step" data-step="audit">
+              <rect class="d-halo" x="680" y="102" width="248" height="52" rx="6"/>
+              <rect class="d-node" x="682" y="104" width="244" height="48" rx="4"/>
+              <rect class="d-type" x="682" y="104" width="4" height="48" fill="#45b26b"/>
+              <circle class="d-status success" cx="906" cy="120" r="5"/>
+              <text class="d-title mono" x="700" y="125">disk-usage-audit</text>
+              <text class="d-sub" x="700" y="142">Bash, every host in scope</text>
+            </g>
+
+            <!-- reaction -->
+            <path class="d-edge" d="M804 162 V238 H744" stroke-dasharray="3 4" marker-end="url(#ah)"/>
+            <rect class="d-node" x="620" y="214" width="120" height="48" rx="4" style="stroke-dasharray:3 3"/>
+            <text class="d-title mono" x="636" y="236" style="font-size:12.5px">cache-warm</text>
+            <text class="d-sub" x="636" y="252">another workflow</text>
+            <text class="d-label" x="814" y="208">Reaction</text>
+            <text class="d-sub" x="814" y="224">when this succeeds</text>
+          </svg>
+        </div>
+        <p class="swipe-hint">Swipe sideways to see the whole workflow.</p>
+      </div>
+
+      <ul class="facts">
+        <li><b>Branch on the result</b>Send a failed plan to the on-call path instead of apply. Branches can nest.</li>
+        <li><b>Run steps in parallel</b>Group jobs to run side by side. Each step has its own retries, inputs and soft-cancel behaviour.</li>
+        <li><b>Pass values between steps</b>A step prints <code>::cronomicon-output name=VERSION::1.4.2</code> and the next step reads <code>VERSION</code> as an environment variable.</li>
+        <li><b>Nest and react</b>A workflow can call another workflow, up to three levels deep. Reactions start new runs when one finishes, with a hard depth limit so they can’t loop.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Runners ============ -->
+<section class="band alt" id="runners" aria-labelledby="run-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="run-h">Runners dial out. Nothing dials in.</h2>
+      <p>Reach ordinary hosts over SSH, directly or through a bastion. For isolated networks, install a runner agent inside the zone. It polls Cronomicon for work over HTTPS, so the zone needs no inbound firewall rules.</p>
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-scroll" tabindex="0" role="region" aria-label="Topology diagram, scrollable">
+        <svg viewBox="0 0 960 420" role="img" aria-labelledby="topo-title">
+          <title id="topo-title">Topology diagram. Operators sign in to the Cronomicon server through single sign-on. The server reaches hosts db-01, web-01 and lb-01 over SSH through a bastion. Runner agents in three isolated zones, agency-alpha, agency-beta and the general pool, poll the server over outbound HTTPS. The server also connects to GitLab, Vault and S3.</title>
+          <defs>
+            <marker id="tah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrow" d="M0 0 10 5 0 10z"/></marker>
+            <marker id="tah-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrow primary" d="M0 0 10 5 0 10z"/></marker>
+            <marker id="tah-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrow gold" d="M0 0 10 5 0 10z"/></marker>
+          </defs>
+
+          <!-- operators -->
+          <rect class="d-node" x="405" y="18" width="150" height="46" rx="4"/>
+          <text class="d-title" x="480" y="38" text-anchor="middle">Operators</text>
+          <text class="d-sub" x="480" y="54" text-anchor="middle">browser or API</text>
+          <path class="d-edge gold" d="M480 64 V148" marker-end="url(#tah-g)"/>
+          <text class="d-label gold" x="490" y="112">Sign in with SSO</text>
+
+          <!-- server -->
+          <rect class="d-node server" x="360" y="150" width="240" height="110" rx="8"/>
+          <image href="assets/img/emblem-160.webp" x="376" y="170" width="43" height="44"/>
+          <text class="d-title" x="430" y="186" style="font-size:16px">Cronomicon</text>
+          <text class="d-sub" x="430" y="204">API, scheduler and UI</text>
+          <text class="d-sub" x="376" y="238">one binary + cronomicon.db</text>
+
+          <!-- ssh side -->
+          <path class="d-edge" d="M360 205 H300" marker-end="url(#tah)"/>
+          <text class="d-label" x="310" y="196">SSH</text>
+          <rect class="d-node" x="186" y="182" width="112" height="46" rx="4"/>
+          <text class="d-title" x="242" y="202" text-anchor="middle">bastion</text>
+          <text class="d-sub" x="242" y="218" text-anchor="middle">ProxyJump</text>
+          <path class="d-edge" d="M186 205 H166 Q156 205 156 195 V137 Q156 127 146 127 H138" marker-end="url(#tah)"/>
+          <path class="d-edge" d="M166 205 H138" marker-end="url(#tah)"/>
+          <path class="d-edge" d="M166 205 Q156 205 156 215 V273 Q156 283 146 283 H138" marker-end="url(#tah)"/>
+          <rect class="d-node" x="24" y="106" width="112" height="42" rx="4"/><text class="d-title mono" x="40" y="132">db-01</text>
+          <rect class="d-node" x="24" y="184" width="112" height="42" rx="4"/><text class="d-title mono" x="40" y="210">web-01</text>
+          <rect class="d-node" x="24" y="262" width="112" height="42" rx="4"/><text class="d-title mono" x="40" y="288">lb-01</text>
+          <text class="d-label" x="24" y="92">Hosts in scope</text>
+
+          <!-- zones -->
+          <g>
+            <rect class="d-zone-fill" x="670" y="20" width="266" height="110" rx="8"/><rect class="d-zone" x="670" y="20" width="266" height="110" rx="8"/>
+            <text class="d-label mono" x="686" y="42">agency-alpha</text>
+            <rect class="d-node" x="686" y="58" width="116" height="52" rx="4"/><text class="d-title mono" x="698" y="80" style="font-size:12.5px">linux-01</text><text class="d-sub" x="698" y="97">ansible, vault</text>
+            <rect class="d-node" x="808" y="58" width="112" height="52" rx="4"/><text class="d-title mono" x="820" y="80" style="font-size:12.5px">linux-02</text><text class="d-sub" x="820" y="97">bash, ansible</text>
+          </g>
+          <g>
+            <rect class="d-zone-fill" x="670" y="150" width="266" height="110" rx="8"/><rect class="d-zone" x="670" y="150" width="266" height="110" rx="8"/>
+            <text class="d-label mono" x="686" y="172">agency-beta</text>
+            <rect class="d-node" x="686" y="188" width="116" height="52" rx="4"/><text class="d-title mono" x="698" y="210" style="font-size:12.5px">report-01</text><text class="d-sub" x="698" y="227">perl, python</text>
+            <rect class="d-node" x="808" y="188" width="112" height="52" rx="4"/><text class="d-title mono" x="820" y="210" style="font-size:12.5px">linux-03</text><text class="d-sub" x="820" y="227">terraform</text>
+          </g>
+          <g>
+            <rect class="d-zone-fill" x="670" y="280" width="266" height="110" rx="8"/><rect class="d-zone" x="670" y="280" width="266" height="110" rx="8"/>
+            <text class="d-label" x="686" y="302">General pool</text>
+            <rect class="d-node" x="686" y="318" width="116" height="52" rx="4"/><text class="d-title mono" x="698" y="340" style="font-size:12.5px">win-01</text><text class="d-sub" x="698" y="357">powershell</text>
+            <rect class="d-node" x="808" y="318" width="112" height="52" rx="4"/><text class="d-title mono" x="820" y="340" style="font-size:12.5px">linux-04</text><text class="d-sub" x="820" y="357">bash</text>
+          </g>
+
+          <!-- polls: runner → server -->
+          <path class="d-edge flow" d="M670 75 H652 Q636 75 636 91 V174 Q636 190 620 190 H602" marker-end="url(#tah-p)"/>
+          <path class="d-edge flow" d="M670 205 H602" marker-end="url(#tah-p)"/>
+          <path class="d-edge flow" d="M670 335 H652 Q636 335 636 319 V236 Q636 220 620 220 H602" marker-end="url(#tah-p)"/>
+          <text class="d-label primary" x="624" y="40" text-anchor="middle">Outbound</text>
+          <text class="d-label primary" x="624" y="54" text-anchor="middle">HTTPS</text>
+
+          <!-- integrations -->
+          <path class="d-edge" d="M420 260 V330" marker-end="url(#tah)"/>
+          <path class="d-edge" d="M480 260 V330" marker-end="url(#tah)"/>
+          <path class="d-edge" d="M540 260 V330" marker-end="url(#tah)"/>
+          <rect class="d-node" x="352" y="332" width="84" height="42" rx="4"/><text class="d-title" x="394" y="358" text-anchor="middle">GitLab</text>
+          <rect class="d-node" x="440" y="332" width="80" height="42" rx="4"/><text class="d-title" x="480" y="358" text-anchor="middle">Vault</text>
+          <rect class="d-node" x="524" y="332" width="84" height="42" rx="4"/><text class="d-title" x="566" y="358" text-anchor="middle">S3</text>
+          <text class="d-sub" x="480" y="398" text-anchor="middle">Definitions, secrets, log archive and backups</text>
+        </svg>
+      </div>
+      <p class="swipe-hint">Swipe sideways to see the whole topology.</p>
+    </div>
+
+    <div class="topo-notes">
+      <p><b style="color:var(--text)">Isolation is set by operators.</b> Each scope belongs to an agency, which is a department or network zone. A job is only handed to a runner in the same agency. Runners can’t choose their own agency.</p>
+      <p><b style="color:var(--text)">Work goes where it can run.</b> Runners advertise what they can do, such as Ansible collections, Vault access or Terraform. A job waits for a runner that meets its requirements, and you can pin a run to a tagged runner.</p>
+      <p><b style="color:var(--text)">Checkouts are opt-in.</b> Running full Ansible projects requires an allowlisted repository, a commit pinned by the server, a read-only deploy key, and a secret scan of the checked-out tree.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Governance ============ -->
+<section class="band" id="governance" aria-labelledby="gov-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="gov-h">Built for the departments that share it</h2>
+      <p>Several teams can share one Cronomicon. Each team sees and runs only its own jobs, secrets never reach a log, and every change is recorded.</p>
+    </div>
+
+    <div class="gov">
+      <div class="evidence">
+        <figure class="log">
+          <figcaption class="log-bar"><span class="log-name">nightly-db-backup</span><span class="log-meta">Run log in History</span></figcaption>
+<pre><span class="ts">02:00:04</span> Connecting to db-01 as svc_backup
+<span class="ts">02:00:04</span> Authenticating with token <mark>[REDACTED]</mark>
+<span class="ts">02:00:05</span> pg_dump app_db &gt; /backups/app_db.sql
+<span class="ts">02:02:11</span> Uploading with key <mark>[REDACTED]</mark>
+<span class="ts">02:02:17</span> Done, exit 0</pre>
+        </figure>
+        <figure class="feed">
+          <figcaption class="log-bar"><span class="log-name">Activity</span><span class="log-meta">Searchable, kept as long as you choose</span></figcaption>
+          <ol>
+            <li><span><span class="who">alice@corp.example</span> changed the schedule of <b>nightly-db-backup</b></span><time>2m ago</time></li>
+            <li><span><span class="who">bob@corp.example</span> drained runner <b>linux-03</b></span><time>18m ago</time></li>
+            <li><span><span class="who">Git sync</span> updated 3 definitions</span><time>1h ago</time></li>
+            <li><span><span class="who">svc-deploy</span> triggered <b>prod-release</b> with an API token</span><time>3h ago</time></li>
+          </ol>
+        </figure>
+      </div>
+      <dl class="gov-list">
+        <div><dt>Access by department</dt><dd>AD groups map to roles and agencies through access grants, with seven permissions. Team leads can manage access for their own agencies without full admin rights.</dd></div>
+        <div><dt>Secrets by reference</dt><dd>Stored secrets are encrypted with AES-256-GCM, or read from HashiCorp Vault at dispatch. Become-passwords are never passed as environment variables.</dd></div>
+        <div><dt>Masked everywhere</dt><dd>Secret values, SSH credentials and per-run overrides are replaced with <code>[REDACTED]</code> in run logs and the audit stream before anything is written.</dd></div>
+        <div><dt>A complete record</dt><dd>Runs, config changes, pushes and syncs land in one Activity feed. Retention is set per data type, and logs can be archived to S3.</dd></div>
+        <div><dt>Calendars and SLAs</dt><dd>Working calendars skip holidays and change freezes. SLA deadlines flag late runs, and missed-run detection catches schedules that never fired.</dd></div>
+        <div><dt>Undo built in</dt><dd>Every definition keeps a revision history. Deleted jobs go to a recycle bin until an admin restores or purges them.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Deploy ============ -->
+<section class="band" id="deploy" aria-labelledby="dep-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="dep-h">One binary. One database file.</h2>
+      <p>The API, scheduler and web UI are one Go process backed by a single SQLite file, with no message broker or separate database server. Run it as a container behind your reverse proxy and identity provider.</p>
+    </div>
+
+    <div class="deploy">
+      <div class="stack">
+      <div class="code">
+        <div class="code-bar"><span>Build and run</span><button class="copy-btn" type="button" data-copy="deploy-cmd"><svg><use href="#i-copy"/></svg><span>Copy</span></button></div>
+<pre id="deploy-cmd" tabindex="0" aria-label="Commands to build and run Cronomicon"><span class="prompt">$ </span>git clone https://github.com/ResetSmith/cronomicon.git
+<span class="prompt">$ </span>cd cronomicon
+<span class="prompt">$ </span>docker build -f backend/Dockerfile -t cronomicon:latest .
+<span class="prompt">$ </span>docker run -d -p 8080:8080 \
+    -v /var/lib/cronomicon:/var/lib/cronomicon \
+    --env-file cronomicon.env cronomicon:latest</pre>
+      </div>
+      <div class="code">
+        <div class="code-bar"><span>Add a runner</span><span class="src">token from Runners, single use</span></div>
+<pre tabindex="0" aria-label="Command to install a runner"><span class="prompt">$ </span>curl -fsSL https://cronomicon.example.com/install/crn_reg_… | sudo bash</pre>
+      </div>
+      </div>
+
+      <dl class="spec">
+        <dt>Runtime</dt><dd>One static Go binary, UI embedded</dd>
+        <dt>State</dt><dd>SQLite, <code>/var/lib/cronomicon/cronomicon.db</code></dd>
+        <dt>Sign-in</dt><dd>OIDC or trusted-header SSO</dd>
+        <dt>Execution</dt><dd>Built-in SSH, plus runner agents on Linux and Windows</dd>
+        <dt>Metrics</dt><dd>Prometheus at <code>/metrics</code></dd>
+        <dt>Backups</dt><dd>Snapshots to S3 with <code>VACUUM INTO</code></dd>
+        <dt>License</dt><dd>Apache-2.0</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Closing ============ -->
+<section class="closing" aria-labelledby="close-h">
+  <div class="wrap closing-inner">
+    <div>
+      <h2 id="close-h">Retire the crontabs.</h2>
+      <p>The source, the administrator and user manuals, and a runner install guide are all in the repository. Cronomicon is free to run, change and share under the Apache-2.0 license.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/ResetSmith/cronomicon"><svg><use href="#i-github"/></svg>View on GitHub</a>
+        <a class="btn btn-ghost" href="https://github.com/ResetSmith/cronomicon/blob/release/CHANGELOG.md">Read the changelog</a>
+      </div>
+    </div>
+    <figure class="crontab" aria-label="An old crontab file with every job line struck through">
+      <figcaption>/etc/crontab on db-01</figcaption>
+<pre><span class="keep">SHELL=/bin/bash
+MAILTO=""</span>
+<s>0 2 * * *     root  /opt/scripts/backup-db.sh</s>
+<s>*/30 * * * *  root  /opt/scripts/disk-usage.sh</s>
+<s>0 4 * * 1     root  certbot renew --quiet</s>
+<s>0 0 * * *     root  /usr/sbin/logrotate /etc/logrotate.conf</s>
+<s>15 7 * * 1-5  ops   perl /home/ops/report.pl</s>  <span class="keep"># ask Dave</span></pre>
+    </figure>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap foot">
+    <a class="brand" href="#top" aria-label="Cronomicon, back to top">
+      <img src="assets/img/emblem-80.webp" alt="" width="27" height="28" loading="lazy">
+      <span class="wordmark">CRONOMICON</span>
+    </a>
+    <nav aria-label="Footer">
+      <a href="https://github.com/ResetSmith/cronomicon">Source</a>
+      <a href="https://github.com/ResetSmith/cronomicon/blob/release/CHANGELOG.md">Changelog</a>
+      <a href="https://github.com/ResetSmith/cronomicon/tree/release/documentation">Documentation</a>
+      <a href="https://github.com/ResetSmith/cronomicon/issues">Issues</a>
+      <a href="https://github.com/ResetSmith/cronomicon/blob/release/LICENSE">License</a>
+    </nav>
+    <p class="foot-meta">Cronomicon is open-source software released under the Apache-2.0 license. Screenshots show the app’s built-in demo data.</p>
+  </div>
+</footer>
+
+<script src="assets/js/site.js" defer></script>
+</body>
+</html>
