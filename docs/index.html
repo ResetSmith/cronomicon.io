@@ -5,76 +5,245 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Documentation · Cronomicon</title>
   <meta name="description" content="The Cronomicon administrator and user manuals, runner guides, usage guides and training courses for the latest release.">
+  <meta name="theme-color" content="#0a1119" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f4f6fa" media="(prefers-color-scheme: light)">
   <link rel="canonical" href="https://cronomicon.io/docs/">
   <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/assets/img/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/fraunces-400-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/plex-sans-400-700-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/site.css">
   <script>try { var t = localStorage.getItem("crn-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
   <!-- The pages beside this one are copied in by the app repo's publish workflow
        on every release tag (github.com/ResetSmith/cronomicon,
        .github/workflows/publish-images.yml, the docs job). That sync leaves this
-       file alone: it is the only file in docs/ that lives in this repo. -->
+       file alone: it is the only file in docs/ that lives in this repo.
+
+       The part lists below link to each manual's part title pages
+       (#part-1 … #part-4). If a manual gains or renames a part, update its
+       list here. -->
   <style>
-    .docs { padding-top: 48px; padding-bottom: 80px; }
-    .docs h1 { font: 600 clamp(2rem, 4.5vw, 2.75rem)/1.1 var(--display); margin: 0 0 12px; }
-    .docs .lead { color: var(--text-sec); max-width: 62ch; margin: 0 0 40px; }
-    .docs h2 { font: 600 13px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin: 40px 0 14px; }
-    .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; list-style: none; padding: 0; margin: 0; }
-    .doc-grid a { display: block; height: 100%; padding: 18px 20px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-surface); color: var(--text); transition: border-color .15s; }
-    .doc-grid a:hover { border-color: var(--accent); text-decoration: none; }
-    .doc-grid b { display: block; font-size: 17px; margin-bottom: 6px; }
-    .doc-grid span { color: var(--text-sec); font-size: 15px; }
-    .doc-grid .primary b { color: var(--accent); }
-    .offline { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-sec); max-width: 70ch; }
-    .offline code { font-family: var(--mono); font-size: .92em; }
+    /* The home page's sections, applied to a reading list: each group of
+       documents is a band with the site's two-column head, and the documents
+       themselves are rows parted by hairlines rather than cards. The bands
+       run plain, alt, alt, plain as the home page's do: the closing section
+       needs a plain band above it. */
+    .docs-hero h1 { margin-bottom: 20px; }
+    .docs-hero .lede { margin-bottom: 0; }
+
+    /* The two manuals: one column each, the title set large, then the parts
+       they are divided into, which link straight to each part's title page. */
+    .books { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 5vw, 64px); }
+    .book h3 { font: 580 clamp(1.7rem, 2.8vw, 2.2rem)/1.1 var(--display); letter-spacing: -.015em; margin: 0 0 12px; }
+    .book h3 a { color: var(--text); }
+    .book h3 a:hover { color: var(--accent); text-decoration: none; }
+    .book > p { color: var(--text-sec); margin: 0 0 24px; max-width: 34em; }
+    .book-parts { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--border-light); }
+    .book-parts a { display: grid; grid-template-columns: 2.4em minmax(0, 1fr); align-items: baseline; padding: 12px 2px; border-top: 1px solid var(--border-light); color: var(--text); }
+    .book-parts a:hover { text-decoration: none; }
+    .book-parts a:hover b { color: var(--accent); }
+    .book-parts .n { font: 520 1.05rem/1 var(--display); color: var(--accent); }
+    .book-parts b { font-weight: 600; }
+    .book-parts small { display: block; color: var(--text-muted); font-size: 14px; margin-top: 2px; }
+    @media (max-width: 800px) { .books { grid-template-columns: minmax(0, 1fr); } }
+
+    /* Guides and courses: a title and one line each, in two columns. */
+    .doc-rows { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 64px); }
+    .doc-rows li { border-top: 1px solid var(--border-light); }
+    .doc-rows a { display: block; padding: 18px 2px 20px; color: var(--text-sec); }
+    .doc-rows a:hover { text-decoration: none; }
+    .doc-rows b { display: block; color: var(--text); font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+    .doc-rows a:hover b { color: var(--accent); }
+    @media (max-width: 800px) { .doc-rows { grid-template-columns: minmax(0, 1fr); } }
+
+    .closing .lede { margin-bottom: 30px; }
+    .closing-inner.single { grid-template-columns: minmax(0, 1fr); }
   </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<header class="site-header">
-  <nav class="wrap nav" aria-label="Primary">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2 12h2.2M19.8 12H22M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  </defs>
+</svg>
+
+<header class="site-header" id="top">
+  <div class="wrap nav">
     <a class="brand" href="/" aria-label="Cronomicon home">
-      <img src="/assets/img/emblem-80.webp" alt="" width="37" height="38">
+      <img src="/assets/img/emblem-80.webp" srcset="/assets/img/emblem-80.webp 80w, /assets/img/emblem-160.webp 160w" sizes="37px" alt="" width="37" height="38">
       <span class="wordmark">CRONOMICON</span>
     </a>
-    <div class="nav-actions" style="margin-left:auto">
-      <a class="btn btn-ghost btn-sm" href="/">cronomicon.io</a>
-      <a class="btn btn-ghost btn-sm" href="https://github.com/ResetSmith/cronomicon">GitHub</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/#tour">Tour</a></li>
+      <li><a href="/#compose">How it works</a></li>
+      <li><a href="/#workflows">Workflows</a></li>
+      <li><a href="/#runners">Runners</a></li>
+      <li><a href="/#governance">Security</a></li>
+      <li><a href="/#deploy">Deploy</a></li>
+      <li><a href="/docs/" aria-current="true">Docs</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="icon-btn theme-toggle" type="button" id="theme-toggle" aria-label="Switch colour theme">
+        <svg class="sun"><use href="#i-sun"/></svg><svg class="moon"><use href="#i-moon"/></svg>
+      </button>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/ResetSmith/cronomicon"><svg><use href="#i-github"/></svg>GitHub</a>
+      <button class="icon-btn menu-btn" type="button" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><svg><use href="#i-menu"/></svg></button>
     </div>
-  </nav>
+  </div>
 </header>
 
-<main id="main" class="wrap docs">
-  <h1>Documentation</h1>
-  <p class="lead">The manuals for the latest release, readable before you deploy. Once Cronomicon is running, its <b>Help</b> menu opens the copy that matches the version you run.</p>
+<main id="main">
 
-  <h2>Start here</h2>
-  <ul class="doc-grid">
-    <li><a class="primary" href="administrator-manual.html"><b>Administrator Manual</b><span>Deployment, first-run bootstrap, access and agencies, secrets, GitOps sync, the runner fleet and day-2 operations.</span></a></li>
-    <li><a class="primary" href="user-manual.html"><b>User Manual</b><span>Every screen, and task recipes for operators and job authors.</span></a></li>
-  </ul>
+<section class="hero docs-hero">
+  <div class="wrap">
+    <h1>Documentation</h1>
+    <p class="lede">The manuals for the latest release, readable before you deploy. Once Cronomicon is running, its <strong>Help</strong> menu opens the copy that matches the version you run.</p>
+    <a class="release-link" href="https://github.com/ResetSmith/cronomicon/releases/latest"><span class="tag">v2.0.3</span>Latest release notes</a>
+  </div>
+</section>
 
-  <h2>Runners</h2>
-  <ul class="doc-grid">
-    <li><a href="runner-install.html"><b>Install</b><span>Choosing slim or fat, the one-line installer, TLS trust, systemd and container installs.</span></a></li>
-    <li><a href="runner-manage.html"><b>Manage</b><span>Status and health, upgrades, resync, managed settings, tags and retiring a runner.</span></a></li>
-    <li><a href="runner-security.html"><b>Security</b><span>What crosses the wire, key custody, host-key trust, hardening and residual risks.</span></a></li>
-  </ul>
+<section class="band" id="manuals" aria-labelledby="manuals-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="manuals-h">Start with the manuals</h2>
+      <p>Two books: one for the people who install and run the service, one for the people who build and run jobs in it. Jump straight to any part.</p>
+    </div>
+    <div class="books">
+      <article class="book">
+        <h3><a href="administrator-manual.html">Administrator Manual</a></h3>
+        <p>Deployment, first-run bootstrap, access and agencies, secrets, GitOps sync, the runner fleet and day-2 operations.</p>
+        <ol class="book-parts">
+          <li><a href="administrator-manual.html#part-1"><span class="n">I</span><span><b>Administering Cronomicon</b><small>What the service is made of, the first sign-in, and who may do what</small></span></a></li>
+          <li><a href="administrator-manual.html#part-2"><span class="n">II</span><span><b>Operations</b><small>Execution, Git sync, secrets, the runner fleet and deployment</small></span></a></li>
+          <li><a href="administrator-manual.html#part-3"><span class="n">III</span><span><b>Reference</b><small>Troubleshooting, glossary and appendices</small></span></a></li>
+        </ol>
+      </article>
+      <article class="book">
+        <h3><a href="user-manual.html">User Manual</a></h3>
+        <p>Every screen, the ideas behind them, and task recipes for operators and job authors.</p>
+        <ol class="book-parts">
+          <li><a href="user-manual.html#part-1"><span class="n">I</span><span><b>Orientation</b><small>Core concepts, your first job, roles and permissions</small></span></a></li>
+          <li><a href="user-manual.html#part-2"><span class="n">II</span><span><b>View Reference</b><small>Every screen, each control, and who may use it</small></span></a></li>
+          <li><a href="user-manual.html#part-3"><span class="n">III</span><span><b>Task Recipes</b><small>End-to-end walkthroughs of common tasks</small></span></a></li>
+          <li><a href="user-manual.html#part-4"><span class="n">IV</span><span><b>Reference</b><small>Troubleshooting, glossary and appendices</small></span></a></li>
+        </ol>
+      </article>
+    </div>
+  </div>
+</section>
 
-  <h2>Writing jobs</h2>
-  <ul class="doc-grid">
-    <li><a href="bash-guide.html"><b>Bash</b><span>Shell scripts over SSH or on a runner.</span></a></li>
-    <li><a href="ansible-guide.html"><b>Ansible</b><span>Playbooks, inventories and project checkouts.</span></a></li>
-    <li><a href="powershell-guide.html"><b>PowerShell</b><span>Windows fleets, auth, inputs, outputs and secrets.</span></a></li>
-    <li><a href="python-guide.html"><b>Python</b><span>Targets, inputs, outputs, exit codes and secrets.</span></a></li>
-  </ul>
+<section class="band alt" id="runners" aria-labelledby="runners-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="runners-h">Runner guides</h2>
+      <p>Runner agents execute jobs inside networks the server cannot reach. These guides take a runner from install to retirement.</p>
+    </div>
+    <ul class="doc-rows">
+      <li><a href="runner-install.html"><b>Install</b>Choosing slim or fat, the one-line installer, TLS trust, systemd and container installs.</a></li>
+      <li><a href="runner-manage.html"><b>Manage</b>Status and health, upgrades, resync, managed settings, tags and retiring a runner.</a></li>
+      <li><a href="runner-security.html"><b>Security</b>What crosses the wire, key custody, host-key trust, hardening and residual risks.</a></li>
+    </ul>
+  </div>
+</section>
 
-  <h2>Training</h2>
-  <ul class="doc-grid">
-    <li><a href="training-operator.html"><b>Operator course</b><span>Ten modules for people who run and watch jobs.</span></a></li>
-    <li><a href="training-admin.html"><b>Administrator course</b><span>Seven modules for the people who run Cronomicon.</span></a></li>
-  </ul>
+<section class="band alt" id="writing" aria-labelledby="writing-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="writing-h">Writing jobs</h2>
+      <p>How a script receives its targets, inputs and secrets, and how it reports back, in each language Cronomicon runs.</p>
+    </div>
+    <ul class="doc-rows">
+      <li><a href="bash-guide.html"><b>Bash</b>Shell scripts over SSH or on a runner.</a></li>
+      <li><a href="ansible-guide.html"><b>Ansible</b>Playbooks, inventories and project checkouts.</a></li>
+      <li><a href="powershell-guide.html"><b>PowerShell</b>Windows fleets, auth, inputs, outputs and secrets.</a></li>
+      <li><a href="python-guide.html"><b>Python</b>Targets, inputs, outputs, exit codes and secrets.</a></li>
+    </ul>
+  </div>
+</section>
 
-  <p class="offline">Offline copies: every <a href="https://github.com/ResetSmith/cronomicon/releases/latest">GitHub Release</a> attaches these pages as <code>cronomicon-docs-X.Y.Z.zip</code>. Unzip it and open <code>administrator-manual.html</code>. A checkout of the repository has them too, in <code>backend/web/dist/</code>, and they open in a browser straight from disk.</p>
+<section class="band" id="training" aria-labelledby="training-h">
+  <div class="wrap">
+    <div class="band-head">
+      <h2 id="training-h">Training courses</h2>
+      <p>Self-paced courses that open as slides, one idea at a time, with checks along the way. Each can also be read as one page.</p>
+    </div>
+    <ul class="doc-rows">
+      <li><a href="training-operator.html"><b>Operator course</b>Ten modules for people who run and watch jobs.</a></li>
+      <li><a href="training-admin.html"><b>Administrator course</b>Seven modules for the people who run Cronomicon.</a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="closing" aria-labelledby="offline-h">
+  <div class="wrap closing-inner single">
+    <div>
+      <h2 id="offline-h">Read them offline.</h2>
+      <p class="lede">Every GitHub Release attaches these pages as <code>cronomicon-docs-X.Y.Z.zip</code>. Unzip it and open <code>administrator-manual.html</code>. A checkout of the repository has them too, in <code>backend/web/dist/</code>, and they open in a browser straight from disk.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/ResetSmith/cronomicon/releases/latest">Download the latest release</a>
+        <a class="btn btn-ghost" href="https://github.com/ResetSmith/cronomicon"><svg><use href="#i-github"/></svg>View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
+
+<footer class="site-footer">
+  <div class="wrap foot">
+    <a class="brand" href="/" aria-label="Cronomicon home">
+      <img src="/assets/img/emblem-80.webp" alt="" width="27" height="28" loading="lazy">
+      <span class="wordmark">CRONOMICON</span>
+    </a>
+    <nav aria-label="Footer">
+      <a href="https://github.com/ResetSmith/cronomicon">Source</a>
+      <a href="https://github.com/ResetSmith/cronomicon/blob/release/CHANGELOG.md">Changelog</a>
+      <a href="/docs/">Documentation</a>
+      <a href="https://github.com/ResetSmith/cronomicon/issues">Issues</a>
+      <a href="https://github.com/ResetSmith/cronomicon/blob/release/LICENSE">License</a>
+    </nav>
+    <p class="foot-meta">Cronomicon is open-source software released under the Apache-2.0 license.</p>
+  </div>
+</footer>
+
+<script>
+  /* The header's behaviour from assets/js/site.js, without the home page's
+     demos: that script expects the Score, the tour and the workflow. */
+  (function () {
+    var root = document.documentElement;
+    var themeBtn = document.getElementById("theme-toggle");
+    function effective() {
+      var t = root.dataset.theme;
+      if (t === "light" || t === "dark") return t;
+      return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    }
+    function label() { themeBtn.setAttribute("aria-label", effective() === "dark" ? "Switch to light theme" : "Switch to dark theme"); }
+    themeBtn.addEventListener("click", function () {
+      var next = effective() === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      try { localStorage.setItem("crn-theme", next); } catch (e) {}
+      label();
+    });
+    label();
+
+    var header = document.querySelector(".site-header");
+    function onScroll() { header.classList.toggle("scrolled", window.scrollY > 8); }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    var menuBtn = document.getElementById("menu-btn");
+    var navLinks = document.getElementById("nav-links");
+    menuBtn.addEventListener("click", function () {
+      var open = navLinks.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", String(open));
+    });
+  })();
+</script>
 </body>
 </html>
