@@ -136,6 +136,37 @@
     }
   }
 
+  /* ---------- Trailer ---------- */
+  // A modal player opened from the hero. Playback starts on the click that opens it (the
+  // narration needs sound, so it is never muted-autoplayed), and closing always pauses.
+  // Linking to /#trailer opens the dialog without starting playback.
+  (function () {
+    var dlg = document.getElementById("trailer");
+    var openBtn = document.getElementById("trailer-open");
+    var closeBtn = document.getElementById("trailer-close");
+    var vid = document.getElementById("trailer-video");
+    if (!dlg || !openBtn || !vid || typeof dlg.showModal !== "function") {
+      // No <dialog> support: send the button straight to the file.
+      if (openBtn) openBtn.addEventListener("click", function () { location.href = "assets/media/trailer.mp4"; });
+      return;
+    }
+    function open(play) {
+      if (!dlg.open) dlg.showModal();
+      closeBtn.focus({ preventScroll: true });
+      if (play) { var p = vid.play(); if (p && p.catch) p.catch(function () {}); }
+    }
+    openBtn.addEventListener("click", function () { open(true); });
+    closeBtn.addEventListener("click", function () { dlg.close(); });
+    // A click on the backdrop lands on the <dialog> itself, outside the box.
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener("close", function () {
+      vid.pause();
+      if (location.hash === "#trailer") history.replaceState(null, "", location.pathname + location.search);
+    });
+    // The browser's own jump to the #trailer fragment would take focus after us; defer ours.
+    if (location.hash === "#trailer") { open(false); requestAnimationFrame(function () { closeBtn.focus({ preventScroll: true }); }); }
+  })();
+
   /* ---------- Copy buttons ---------- */
   document.querySelectorAll("[data-copy]").forEach(function (btn) {
     if (!navigator.clipboard) { btn.hidden = true; return; }

@@ -1,0 +1,58 @@
+WEBVTT
+
+00:00:01.000 --> 00:00:03.400
+Every night, somewhere in your infrastructure,
+
+00:00:03.560 --> 00:00:05.300
+a script is waiting to run.
+
+00:00:06.800 --> 00:00:09.400
+Crontabs, scattered across forgotten servers.
+
+00:00:09.880 --> 00:00:12.300
+Failures nobody sees, until morning.
+
+00:00:13.600 --> 00:00:15.300
+There is a better way.
+
+00:00:16.400 --> 00:00:19.100
+Cronomicon brings your Bash, Ansible,
+
+00:00:19.220 --> 00:00:22.400
+Terraform, PowerShell and Python under one roof.
+
+00:00:24.300 --> 00:00:27.400
+Compose scripts, schedules and secrets into jobs.
+
+00:00:27.600 --> 00:00:30.100
+Then chain those jobs into workflows.
+
+00:00:32.300 --> 00:00:33.450
+Watch every run,
+
+00:00:33.540 --> 00:00:36.200
+past and future, on a single, living score.
+
+00:00:38.300 --> 00:00:40.550
+Route jobs to isolated runners,
+
+00:00:40.680 --> 00:00:42.700
+with secrets injected at the last moment,
+
+00:00:42.800 --> 00:00:44.900
+and masked everywhere else.
+
+00:00:46.300 --> 00:00:47.700
+One static binary.
+
+00:00:47.840 --> 00:00:49.400
+Your definitions in Git.
+
+00:00:49.520 --> 00:00:51.100
+Your team, in control.
+
+00:00:54.500 --> 00:00:55.800
+Cronomicon.
+
+00:00:56.900 --> 00:00:59.400
+Ancient rites of scheduling, made easy.

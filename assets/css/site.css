@@ -679,3 +679,34 @@ h3 { font: 600 1.2rem/1.3 var(--sans); margin: 0 0 8px; }
 .swipe-hint { display: none; margin: 10px 0 0; font-size: 13px; color: var(--text-muted); }
 @media (max-width: 760px) { .swipe-hint { display: block; } }
 @media (max-width: 560px) { .log pre, .crontab pre { white-space: pre-wrap; overflow-wrap: anywhere; } }
+
+/* ---------- Trailer ---------- */
+/* The hero's "Watch the trailer" button opens a modal player. The backdrop stays dark in both
+   themes: it frames a dark film, and a light scrim would glare around it. */
+.btn-meta { font: 500 13px/1 var(--mono); color: var(--text-muted); margin-left: -2px; }
+.trailer {
+  width: min(1200px, calc(100vw - 2 * var(--gutter)));
+  max-width: none; max-height: none;
+  padding: 0; border: 0; background: transparent; overflow: visible;
+}
+.trailer:focus-visible { outline: none; }
+.trailer::backdrop { background: rgba(3, 6, 10, .88); backdrop-filter: blur(6px); }
+.trailer-box {
+  position: relative;
+  border-radius: var(--r-surface);
+  background: #05090e;
+  box-shadow: 0 40px 120px -20px rgba(0, 0, 0, .9), 0 0 0 1px rgba(201, 162, 39, .18);
+}
+.trailer-box video {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
+  max-height: calc(100vh - 120px); border-radius: var(--r-surface); background: #05090e;
+}
+.trailer-close { position: absolute; top: -52px; right: 0; color: #c8d6e5; border-color: #3a4d63; background: rgba(10, 17, 25, .7); }
+.trailer-close:hover { color: #fff; border-color: #6d84a0; }
+@media (prefers-reduced-motion: no-preference) {
+  .trailer[open] { animation: trailer-in .28s cubic-bezier(.2, .8, .2, 1); }
+  .trailer[open]::backdrop { animation: trailer-fade .28s ease-out; }
+}
+@keyframes trailer-in { from { opacity: 0; transform: translateY(12px) scale(.98); } }
+@keyframes trailer-fade { from { opacity: 0; } }
+#trailer-open svg { color: var(--accent); }
