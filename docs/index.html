@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentation · Cronomicon</title>
+  <meta name="description" content="The Cronomicon administrator and user manuals, runner guides, usage guides and training courses for the latest release.">
+  <link rel="canonical" href="https://cronomicon.io/docs/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script>try { var t = localStorage.getItem("crn-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <!-- The pages beside this one are copied in by the app repo's publish workflow
+       on every release tag (github.com/ResetSmith/cronomicon,
+       .github/workflows/publish-images.yml, the docs job). That sync leaves this
+       file alone: it is the only file in docs/ that lives in this repo. -->
+  <style>
+    .docs { padding-top: 48px; padding-bottom: 80px; }
+    .docs h1 { font: 600 clamp(2rem, 4.5vw, 2.75rem)/1.1 var(--display); margin: 0 0 12px; }
+    .docs .lead { color: var(--text-sec); max-width: 62ch; margin: 0 0 40px; }
+    .docs h2 { font: 600 13px/1 var(--cond); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin: 40px 0 14px; }
+    .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; list-style: none; padding: 0; margin: 0; }
+    .doc-grid a { display: block; height: 100%; padding: 18px 20px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-surface); color: var(--text); transition: border-color .15s; }
+    .doc-grid a:hover { border-color: var(--accent); text-decoration: none; }
+    .doc-grid b { display: block; font-size: 17px; margin-bottom: 6px; }
+    .doc-grid span { color: var(--text-sec); font-size: 15px; }
+    .doc-grid .primary b { color: var(--accent); }
+    .offline { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-sec); max-width: 70ch; }
+    .offline code { font-family: var(--mono); font-size: .92em; }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <nav class="wrap nav" aria-label="Primary">
+    <a class="brand" href="/" aria-label="Cronomicon home">
+      <img src="/assets/img/emblem-80.webp" alt="" width="37" height="38">
+      <span class="wordmark">CRONOMICON</span>
+    </a>
+    <div class="nav-actions" style="margin-left:auto">
+      <a class="btn btn-ghost btn-sm" href="/">cronomicon.io</a>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/ResetSmith/cronomicon">GitHub</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main" class="wrap docs">
+  <h1>Documentation</h1>
+  <p class="lead">The manuals for the latest release, readable before you deploy. Once Cronomicon is running, its <b>Help</b> menu opens the copy that matches the version you run.</p>
+
+  <h2>Start here</h2>
+  <ul class="doc-grid">
+    <li><a class="primary" href="administrator-manual.html"><b>Administrator Manual</b><span>Deployment, first-run bootstrap, access and agencies, secrets, GitOps sync, the runner fleet and day-2 operations.</span></a></li>
+    <li><a class="primary" href="user-manual.html"><b>User Manual</b><span>Every screen, and task recipes for operators and job authors.</span></a></li>
+  </ul>
+
+  <h2>Runners</h2>
+  <ul class="doc-grid">
+    <li><a href="runner-install.html"><b>Install</b><span>Choosing slim or fat, the one-line installer, TLS trust, systemd and container installs.</span></a></li>
+    <li><a href="runner-manage.html"><b>Manage</b><span>Status and health, upgrades, resync, managed settings, tags and retiring a runner.</span></a></li>
+    <li><a href="runner-security.html"><b>Security</b><span>What crosses the wire, key custody, host-key trust, hardening and residual risks.</span></a></li>
+  </ul>
+
+  <h2>Writing jobs</h2>
+  <ul class="doc-grid">
+    <li><a href="bash-guide.html"><b>Bash</b><span>Shell scripts over SSH or on a runner.</span></a></li>
+    <li><a href="ansible-guide.html"><b>Ansible</b><span>Playbooks, inventories and project checkouts.</span></a></li>
+    <li><a href="powershell-guide.html"><b>PowerShell</b><span>Windows fleets, auth, inputs, outputs and secrets.</span></a></li>
+    <li><a href="python-guide.html"><b>Python</b><span>Targets, inputs, outputs, exit codes and secrets.</span></a></li>
+  </ul>
+
+  <h2>Training</h2>
+  <ul class="doc-grid">
+    <li><a href="training-operator.html"><b>Operator course</b><span>Ten modules for people who run and watch jobs.</span></a></li>
+    <li><a href="training-admin.html"><b>Administrator course</b><span>Seven modules for the people who run Cronomicon.</span></a></li>
+  </ul>
+
+  <p class="offline">Offline copies: every <a href="https://github.com/ResetSmith/cronomicon/releases/latest">GitHub Release</a> attaches these pages as <code>cronomicon-docs-X.Y.Z.zip</code>. Unzip it and open <code>administrator-manual.html</code>. A checkout of the repository has them too, in <code>backend/web/dist/</code>, and they open in a browser straight from disk.</p>
+</main>
+</body>
+</html>
