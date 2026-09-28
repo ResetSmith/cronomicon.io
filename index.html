@@ -201,59 +201,156 @@
         </div>
 
         <div class="tour-panel" role="tabpanel" id="panel-dash" aria-labelledby="tab-dash" hidden>
-          <div class="frame">
+          <div class="frame has-spots">
             <img class="only-dark" loading="lazy" src="assets/img/shots/dashboard-dark.webp" width="2400" height="1500" alt="Cronomicon Dashboard in dark mode: an attention banner reporting 3 jobs, stat tiles, and the Score timeline with past runs and upcoming fires">
             <img class="only-light" loading="lazy" src="assets/img/shots/dashboard-light.webp" width="2400" height="1500" alt="Cronomicon Dashboard in light mode: an attention banner reporting 3 jobs, stat tiles, and the Score timeline with past runs and upcoming fires">
+            <div class="spot-box" aria-hidden="true"></div>
+            <button class="spot" type="button" style="--x:13.6%;--y:10.2%;--w:84.9%;--h:4.7%" aria-describedby="dash-p1">1</button>
+            <button class="spot" type="button" style="--x:13.6%;--y:15.6%;--w:47.8%;--h:7.9%;--ax:61.4%" aria-describedby="dash-p2">2</button>
+            <button class="spot" type="button" style="--x:13.6%;--y:24.8%;--w:84.9%;--h:29.3%" aria-describedby="dash-p3">3</button>
+            <button class="spot" type="button" style="--x:13.6%;--y:65.1%;--w:84.9%;--h:11.3%" aria-describedby="dash-p4">4</button>
           </div>
-          <div class="tour-caption"><p>The <strong>Dashboard</strong> opens with what needs you. Failures and warnings from the last 24 hours sit in one banner, and the Score lays out the day behind you and the twelve hours ahead. Up next lists the next three fires.</p></div>
+          <div class="tour-caption">
+            <p>The <strong>Dashboard</strong> opens with what needs you.</p>
+            <ol class="tour-points">
+              <li id="dash-p1"><strong>Attention banner.</strong> Failures and warnings from the last 24 hours, in one line.</li>
+              <li id="dash-p2"><strong>Stat tiles.</strong> Failed, running, active schedules and total jobs at a glance.</li>
+              <li id="dash-p3"><strong>The Score.</strong> The day behind you and the twelve hours ahead, on one timeline.</li>
+              <li id="dash-p4"><strong>Up next.</strong> The next three fires, and how long until each.</li>
+            </ol>
+          </div>
         </div>
 
         <div class="tour-panel" role="tabpanel" id="panel-jobs" aria-labelledby="tab-jobs" hidden>
-          <div class="frame">
+          <div class="frame has-spots">
             <img class="only-dark" loading="lazy" src="assets/img/shots/jobs-dark.webp" width="2400" height="1500" alt="Jobs catalog in dark mode listing thirteen jobs with type, scope, agency, host, cron schedule, tags, status and source">
             <img class="only-light" loading="lazy" src="assets/img/shots/jobs-light.webp" width="2400" height="1500" alt="Jobs catalog in light mode listing thirteen jobs with type, scope, agency, host, cron schedule, tags, status and source">
+            <div class="spot-box" aria-hidden="true"></div>
+            <button class="spot" type="button" style="--x:13.6%;--y:10%;--w:30.4%;--h:4.8%;--ax:45%" aria-describedby="jobs-p1">1</button>
+            <button class="spot" type="button" style="--x:13.6%;--y:15.8%;--w:42.4%;--h:4%" aria-describedby="jobs-p2">2</button>
+            <button class="spot" type="button" style="--x:25.2%;--y:21.4%;--w:27.8%;--h:62.4%" aria-describedby="jobs-p3">3</button>
+            <button class="spot" type="button" style="--x:53.5%;--y:21.4%;--w:8.6%;--h:62.4%" aria-describedby="jobs-p4">4</button>
+            <button class="spot" type="button" style="--x:78.8%;--y:21.4%;--w:6.2%;--h:62.4%" aria-describedby="jobs-p5">5</button>
           </div>
-          <div class="tour-caption"><p>The <strong>Jobs</strong> catalog shows each job’s type, scope, owning department, host pin, cron schedule and last result. Filter it by tag, choose your columns, and browse jobs as a folder tree when the list gets long.</p></div>
+          <div class="tour-caption">
+            <p>The <strong>Jobs</strong> catalog holds every job, and turns into a folder tree when the list gets long.</p>
+            <ol class="tour-points">
+              <li id="jobs-p1"><strong>Status tabs.</strong> Jump straight to what’s running, failed or paused.</li>
+              <li id="jobs-p2"><strong>Filters.</strong> Search, filter by type or tag, and choose your columns.</li>
+              <li id="jobs-p3"><strong>Where it runs.</strong> Type, scope, owning department and host pin for each job.</li>
+              <li id="jobs-p4"><strong>Schedule.</strong> The cron expression, or manual.</li>
+              <li id="jobs-p5"><strong>Status.</strong> Each job’s current state and last result.</li>
+            </ol>
+          </div>
         </div>
 
         <div class="tour-panel" role="tabpanel" id="panel-detail" aria-labelledby="tab-detail" hidden>
-          <div class="frame">
-            <img class="only-dark" loading="lazy" src="assets/img/shots/job-detail-dark.webp" width="2400" height="1500" alt="An expanded job in dark mode showing executor, SSH key, duration trend, success rate, median and p95 duration, and recent runs">
-            <img class="only-light" loading="lazy" src="assets/img/shots/job-detail-light.webp" width="2400" height="1500" alt="An expanded job in light mode showing executor, SSH key, duration trend, success rate, median and p95 duration, and recent runs">
+          <div class="frame has-spots">
+            <img class="only-dark" loading="lazy" src="assets/img/shots/job-detail-dark.webp" width="2400" height="1500" alt="An expanded critical job in dark mode showing its on-call contact and notes, a duration trend, success rate, median and p95 duration, and recent runs">
+            <img class="only-light" loading="lazy" src="assets/img/shots/job-detail-light.webp" width="2400" height="1500" alt="An expanded critical job in light mode showing its on-call contact and notes, a duration trend, success rate, median and p95 duration, and recent runs">
+            <div class="spot-box" aria-hidden="true"></div>
+            <button class="spot" type="button" style="--x:15%;--y:36.4%;--w:83%;--h:17.6%;--ax:96%" aria-describedby="detail-p1">1</button>
+            <button class="spot" type="button" style="--x:57.2%;--y:56%;--w:28.6%;--h:4.4%;--ax:85.8%" aria-describedby="detail-p2">2</button>
+            <button class="spot" type="button" style="--x:90.2%;--y:66%;--w:7.7%;--h:2.4%" aria-describedby="detail-p3">3</button>
+            <button class="spot" type="button" style="--x:57.2%;--y:69%;--w:36.8%;--h:11%;--ax:75%" aria-describedby="detail-p4">4</button>
+            <button class="spot" type="button" style="--x:57.2%;--y:83.2%;--w:40.7%;--h:16.8%" aria-describedby="detail-p5">5</button>
           </div>
-          <div class="tour-caption"><p>Expand any job to see its <strong>duration trend</strong>, success rate and p95 over 7, 30 or 90 days, plus its recent runs. On-call notes, a contact and a critical flag stay attached to the job, so the next person sees them before they press Run.</p></div>
+          <div class="tour-caption">
+            <p>Expand any job to see how it has been doing, and what the next person needs to know.</p>
+            <ol class="tour-points">
+              <li id="detail-p1"><strong>Notes, contact, critical flag.</strong> They stay attached to the job, so the next person sees them before they press Run.</li>
+              <li id="detail-p2"><strong>Duration trend.</strong> Spot a job that is getting slower.</li>
+              <li id="detail-p3"><strong>7, 30 or 90 days.</strong> Pick the window the analytics cover.</li>
+              <li id="detail-p4"><strong>Analytics.</strong> Success rate, failures, median and p95, plus late and missed fires.</li>
+              <li id="detail-p5"><strong>Recent runs.</strong> Each with its trace ID, result, duration, exit code and who ran it.</li>
+            </ol>
+          </div>
         </div>
 
         <div class="tour-panel" role="tabpanel" id="panel-run" aria-labelledby="tab-run" hidden>
-          <div class="frame">
+          <div class="frame has-spots">
             <img class="only-dark" loading="lazy" src="assets/img/shots/run-dialog-dark.webp" width="2400" height="1500" alt="The Run dialog in dark mode with Inputs, Targets, Method, Timing and Advanced sections and a This run summary rail">
             <img class="only-light" loading="lazy" src="assets/img/shots/run-dialog-light.webp" width="2400" height="1500" alt="The Run dialog in light mode with Inputs, Targets, Method, Timing and Advanced sections and a This run summary rail">
+            <div class="spot-box" aria-hidden="true"></div>
+            <button class="spot" type="button" style="--x:9%;--y:25.8%;--w:51.6%;--h:35%" aria-describedby="run-p1">1</button>
+            <button class="spot" type="button" style="--x:9%;--y:48.6%;--w:51.6%;--h:5.6%;--ax:60.6%" aria-describedby="run-p2">2</button>
+            <button class="spot" type="button" style="--x:65%;--y:25.6%;--w:26.5%;--h:48.8%;--ax:91.5%" aria-describedby="run-p3">3</button>
+            <button class="spot" type="button" style="--x:78.8%;--y:76.6%;--w:12.2%;--h:4%" aria-describedby="run-p4">4</button>
           </div>
-          <div class="tour-caption"><p>Every ad-hoc run goes through the <strong>Run dialog</strong>. It has five sections: inputs, target hosts, executor and runner, timing, and advanced overrides. The rail on the right shows exactly what will run before you confirm, and a run can be deferred to a later time.</p></div>
+          <div class="tour-caption">
+            <p>Every ad-hoc run goes through the <strong>Run dialog</strong>.</p>
+            <ol class="tour-points">
+              <li id="run-p1"><strong>Five sections.</strong> Inputs, target hosts, executor and runner, timing, and advanced overrides.</li>
+              <li id="run-p2"><strong>Timing.</strong> Run now, or defer the run to a later time.</li>
+              <li id="run-p3"><strong>This run.</strong> Exactly what will run, before you confirm.</li>
+              <li id="run-p4"><strong>Confirm.</strong> Nothing runs until you press Run now.</li>
+            </ol>
+          </div>
         </div>
 
         <div class="tour-panel" role="tabpanel" id="panel-hist" aria-labelledby="tab-hist" hidden>
-          <div class="frame">
+          <div class="frame has-spots">
             <img class="only-dark" loading="lazy" src="assets/img/shots/history-drawer-dark.webp" width="2400" height="1500" alt="History in dark mode with an expanded run showing trace ID, result, exit code, duration, trigger, schedule and scope, above a list of runs">
             <img class="only-light" loading="lazy" src="assets/img/shots/history-drawer-light.webp" width="2400" height="1500" alt="History in light mode with an expanded run showing trace ID, result, exit code, duration, trigger, schedule and scope, above a list of runs">
+            <div class="spot-box" aria-hidden="true"></div>
+            <button class="spot" type="button" style="--x:13.9%;--y:10.4%;--w:38.2%;--h:3.6%;--ax:53.4%" aria-describedby="hist-p1">1</button>
+            <button class="spot" type="button" style="--x:13.6%;--y:15.6%;--w:84.9%;--h:3.4%" aria-describedby="hist-p2">2</button>
+            <button class="spot" type="button" style="--x:13.6%;--y:33.6%;--w:84.9%;--h:16%" aria-describedby="hist-p3">3</button>
+            <button class="spot" type="button" style="--x:14.8%;--y:50.8%;--w:82.7%;--h:6.6%" aria-describedby="hist-p4">4</button>
           </div>
-          <div class="tour-caption"><p><strong>History</strong> records every run with a trace ID, exit code, who or what triggered it, and where it ran. Logs tail live while a job runs, secrets are masked, and old logs can move to S3 without leaving the view.</p></div>
+          <div class="tour-caption">
+            <p><strong>History</strong> records every run. Logs tail live while a job runs, and old logs can move to S3 without leaving the view.</p>
+            <ol class="tour-points">
+              <li id="hist-p1"><strong>Every kind of history.</strong> Executions, workflow runs, analytics, changes, schedule pushes and Git sync.</li>
+              <li id="hist-p2"><strong>Search by trace ID.</strong> Or filter by type, result, trigger and how a run stopped.</li>
+              <li id="hist-p3"><strong>The full record.</strong> Trace ID, exit code, who or what triggered it, and where it ran.</li>
+              <li id="hist-p4"><strong>Masked logs.</strong> Output is stored with secrets redacted.</li>
+            </ol>
+          </div>
         </div>
 
         <div class="tour-panel" role="tabpanel" id="panel-sched" aria-labelledby="tab-sched" hidden>
-          <div class="frame">
+          <div class="frame has-spots">
             <img class="only-dark" loading="lazy" src="assets/img/shots/schedules-dark.webp" width="2400" height="1500" alt="Schedules view in dark mode on the Upcoming tab, listing projected fires for the next 24 hours with owner, schedule and cron">
             <img class="only-light" loading="lazy" src="assets/img/shots/schedules-light.webp" width="2400" height="1500" alt="Schedules view in light mode on the Upcoming tab, listing projected fires for the next 24 hours with owner, schedule and cron">
+            <div class="spot-box" aria-hidden="true"></div>
+            <button class="spot" type="button" style="--x:13.9%;--y:10.4%;--w:27.4%;--h:3.8%;--ax:42.6%" aria-describedby="sched-p1">1</button>
+            <button class="spot" type="button" style="--x:13.6%;--y:15.4%;--w:13.9%;--h:3.4%" aria-describedby="sched-p2">2</button>
+            <button class="spot" type="button" style="--x:13.6%;--y:24.4%;--w:84.9%;--h:75.6%" aria-describedby="sched-p3">3</button>
+            <button class="spot" type="button" style="--x:65%;--y:24.4%;--w:9%;--h:75.6%" aria-describedby="sched-p4">4</button>
           </div>
-          <div class="tour-caption"><p><strong>Schedules</strong> are reusable, so one definition can drive many jobs. The Upcoming tab projects every fire for the next day or week. Working calendars and reactions have their own tabs next to it.</p></div>
+          <div class="tour-caption">
+            <p>The <strong>Schedules</strong> view shows what fires next.</p>
+            <ol class="tour-points">
+              <li id="sched-p1"><strong>Calendars and reactions.</strong> Working calendars and reactions have their own tabs beside Upcoming.</li>
+              <li id="sched-p2"><strong>Next day or week.</strong> Upcoming projects every fire in the window.</li>
+              <li id="sched-p3"><strong>Every projected fire.</strong> When it fires, what it runs and the cron behind it.</li>
+              <li id="sched-p4"><strong>Reusable schedules.</strong> One definition, like verify-4h, can drive many jobs.</li>
+            </ol>
+          </div>
         </div>
 
         <div class="tour-panel" role="tabpanel" id="panel-runners" aria-labelledby="tab-run2" hidden>
-          <div class="frame">
+          <div class="frame has-spots">
             <img class="only-dark" loading="lazy" src="assets/img/shots/runners-dark.webp" width="2400" height="1500" alt="Runners view in dark mode: five runners with status, operating system, capability chips, agencies, load and last-seen time">
             <img class="only-light" loading="lazy" src="assets/img/shots/runners-light.webp" width="2400" height="1500" alt="Runners view in light mode: five runners with status, operating system, capability chips, agencies, load and last-seen time">
+            <div class="spot-box" aria-hidden="true"></div>
+            <button class="spot" type="button" style="--x:13.6%;--y:15.6%;--w:84.9%;--h:7.6%" aria-describedby="runners-p1">1</button>
+            <button class="spot" type="button" style="--x:28.2%;--y:33.6%;--w:7.8%;--h:39.6%" aria-describedby="runners-p2">2</button>
+            <button class="spot" type="button" style="--x:44.2%;--y:33.6%;--w:11.8%;--h:39.6%" aria-describedby="runners-p3">3</button>
+            <button class="spot" type="button" style="--x:71.5%;--y:33.6%;--w:3%;--h:39.6%" aria-describedby="runners-p4">4</button>
+            <button class="spot" type="button" style="--x:83.4%;--y:10.4%;--w:7.5%;--h:3.6%" aria-describedby="runners-p5">5</button>
           </div>
-          <div class="tour-caption"><p><strong>Runners</strong> report their capabilities (Ansible version, collections, Vault access, Python) and their load. They can be drained or recovered from the console. To add one, mint a single-use token and paste one command on the host.</p></div>
+          <div class="tour-caption">
+            <p><strong>Runners</strong> are your execution fleet.</p>
+            <ol class="tour-points">
+              <li id="runners-p1"><strong>Fleet health.</strong> Online, degraded, draining and offline counts at a glance.</li>
+              <li id="runners-p2"><strong>Status.</strong> Drain a runner or recover it from the console.</li>
+              <li id="runners-p3"><strong>Capabilities.</strong> Each runner reports its Ansible version, collections, Vault access and Python.</li>
+              <li id="runners-p4"><strong>Load.</strong> Running jobs against each runner’s limit.</li>
+              <li id="runners-p5"><strong>Add a runner.</strong> Mint a single-use token and paste one command on the host.</li>
+            </ol>
+          </div>
         </div>
       </div>
     </div>

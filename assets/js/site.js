@@ -114,6 +114,44 @@
     });
   });
 
+  /* ---------- Tour hotspots ---------- */
+  // Each marker and its caption item point at each other through aria-describedby.
+  // Hovering, focusing or tapping either one spotlights that region of the screenshot.
+  Array.prototype.forEach.call(document.querySelectorAll(".frame.has-spots"), function (frame) {
+    var box = frame.querySelector(".spot-box");
+    var panel = frame.parentNode;
+    var pairs = Array.prototype.map.call(frame.querySelectorAll(".spot"), function (spot) {
+      return { spot: spot, item: document.getElementById(spot.getAttribute("aria-describedby")) };
+    });
+
+    function show(pair) {
+      var wasOn = box.classList.contains("is-on");
+      if (pair && !wasOn) box.style.transition = "none"; // appear in place, don't fly in from the corner
+      pairs.forEach(function (p) {
+        var on = p === pair;
+        p.spot.classList.toggle("is-active", on);
+        p.item.classList.toggle("is-active", on);
+      });
+      if (pair) {
+        ["x", "y", "w", "h"].forEach(function (k, i) {
+          box.style[["left", "top", "width", "height"][i]] = pair.spot.style.getPropertyValue("--" + k);
+        });
+        if (!wasOn) { void box.offsetWidth; box.style.transition = ""; }
+      }
+      box.classList.toggle("is-on", !!pair);
+    }
+
+    pairs.forEach(function (p) {
+      [p.spot, p.item].forEach(function (el) {
+        el.addEventListener("mouseenter", function () { show(p); });
+        el.addEventListener("click", function () { show(p); });
+      });
+      p.spot.addEventListener("focus", function () { show(p); });
+    });
+    panel.addEventListener("mouseleave", function () { if (!panel.contains(document.activeElement)) show(null); });
+    panel.addEventListener("focusout", function (e) { if (!panel.contains(e.relatedTarget)) show(null); });
+  });
+
   function setVideo(play) {
     if (!video) return;
     if (play) { var p = video.play(); if (p && p.catch) p.catch(function () {}); }
