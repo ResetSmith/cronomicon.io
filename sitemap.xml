@@ -4,4 +4,13 @@
   <url><loc>https://cronomicon.io/docs/</loc><lastmod>2026-10-05</lastmod></url>
   <url><loc>https://cronomicon.io/docs/administrator-manual.html</loc></url>
   <url><loc>https://cronomicon.io/docs/user-manual.html</loc></url>
+  <url><loc>https://cronomicon.io/docs/runner-install.html</loc></url>
+  <url><loc>https://cronomicon.io/docs/runner-manage.html</loc></url>
+  <url><loc>https://cronomicon.io/docs/runner-security.html</loc></url>
+  <url><loc>https://cronomicon.io/docs/bash-guide.html</loc></url>
+  <url><loc>https://cronomicon.io/docs/ansible-guide.html</loc></url>
+  <url><loc>https://cronomicon.io/docs/powershell-guide.html</loc></url>
+  <url><loc>https://cronomicon.io/docs/python-guide.html</loc></url>
+  <url><loc>https://cronomicon.io/docs/training-operator.html</loc></url>
+  <url><loc>https://cronomicon.io/docs/training-admin.html</loc></url>
 </urlset>

@@ -105,7 +105,7 @@ Remove any parking-page `A` or `CNAME` records the registrar added. GitHub then 
 
 ## Updating the page
 
-- **Version:** the release chip in the hero and the `softwareVersion` in the JSON-LD block both read `2.0.5`. Bump them together with each release.
+- **Version:** `scripts/bump-version.sh X.Y.Z` sets the release chips, the `softwareVersion` in the JSON-LD block, the image tags in the Deploy commands and the sitemap dates. The main repo's publish workflow runs it on each release tag.
 - **Screenshots:** recapture them from the running app (the `run-cronomicon` skill in the main repo covers launch and dev login) at 1600×1000 and 2× density. Save them to `assets/img/shots/<view>-<dark|light>.webp` at 2400×1500. Keep the dark/light pairs, because the page swaps them with the theme.
 - **Links:** every outbound link points at `github.com/ResetSmith/cronomicon`. If the repository moves, search-and-replace that string.
 - **The Score:** the hero timeline is generated in `assets/js/site.js` from the cron expressions in its `JOBS` array. Edit that array to change the lanes. Outcomes are derived from a hash of each fire, so the same moment always shows the same result.
