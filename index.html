@@ -37,6 +37,16 @@
     try { var t = localStorage.getItem("crn-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
   </script>
 
+  <!-- analytics:start -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DD4PJF5X7S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-DD4PJF5X7S");
+  </script>
+  <!-- analytics:end -->
+
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Cronomicon","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, Windows (runners)","softwareVersion":"2.0.5","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://cronomicon.io/","codeRepository":"https://github.com/ResetSmith/cronomicon","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>

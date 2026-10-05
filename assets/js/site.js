@@ -12,6 +12,11 @@
     return el;
   }
 
+  // Analytics events. A no-op when the tag is absent or blocked.
+  function track(name, params) {
+    if (typeof window.gtag === "function") window.gtag("event", name, params || {});
+  }
+
   /* ---------- Theme ---------- */
   var themeBtn = document.getElementById("theme-toggle");
   function effectiveTheme() {
@@ -193,7 +198,7 @@
       closeBtn.focus({ preventScroll: true });
       if (play) { var p = vid.play(); if (p && p.catch) p.catch(function () {}); }
     }
-    openBtn.addEventListener("click", function () { open(true); });
+    openBtn.addEventListener("click", function () { open(true); track("trailer_open"); });
     closeBtn.addEventListener("click", function () { dlg.close(); });
     // A click on the backdrop lands on the <dialog> itself, outside the box.
     dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
@@ -212,6 +217,7 @@
       var src = document.getElementById(btn.dataset.copy);
       var text = src.innerText.replace(/^\$ /gm, "");
       navigator.clipboard.writeText(text).then(function () {
+        track("copy_command", { command: btn.dataset.copy });
         var label = btn.querySelector("span");
         label.textContent = "Copied";
         setTimeout(function () { label.textContent = "Copy"; }, 1600);

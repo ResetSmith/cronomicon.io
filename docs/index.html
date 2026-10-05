@@ -15,6 +15,19 @@
   <link rel="preload" href="/assets/fonts/plex-sans-400-700-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/site.css">
   <script>try { var t = localStorage.getItem("crn-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <!-- The publish workflow copies the block between the two analytics markers
+       into each manual it publishes here, so this is the tag those pages
+       carry. The manuals' source never has it: they also ship inside the
+       binary and the offline docs zip. Keep the markers on their own lines. -->
+  <!-- analytics:start -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DD4PJF5X7S"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-DD4PJF5X7S");
+  </script>
+  <!-- analytics:end -->
   <!-- The pages beside this one are copied in by the app repo's publish workflow
        on every release tag (github.com/ResetSmith/cronomicon,
        .github/workflows/publish-images.yml, the docs job). That sync leaves this
