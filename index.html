@@ -48,7 +48,7 @@
   <!-- analytics:end -->
 
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Cronomicon","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, Windows (runners)","softwareVersion":"2.0.5","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://cronomicon.io/","codeRepository":"https://github.com/ResetSmith/cronomicon","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Cronomicon","applicationCategory":"DeveloperApplication","operatingSystem":"Linux, Windows (runners)","softwareVersion":"2.2.0","license":"https://www.apache.org/licenses/LICENSE-2.0","url":"https://cronomicon.io/","codeRepository":"https://github.com/ResetSmith/cronomicon","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"VideoObject","name":"Cronomicon trailer","description":"A one-minute introduction to Cronomicon: scattered crontabs replaced by one console for scripts, schedules, workflows, isolated runners and masked secrets.","thumbnailUrl":"https://cronomicon.io/assets/media/trailer-poster.webp","uploadDate":"2026-09-26","duration":"PT1M4S","contentUrl":"https://cronomicon.io/assets/media/trailer.mp4","embedUrl":"https://cronomicon.io/#trailer"}
@@ -126,7 +126,7 @@
           <a class="btn btn-ghost" href="#tour">Take the tour</a>
           <button class="btn btn-ghost" type="button" id="trailer-open" aria-haspopup="dialog" aria-controls="trailer"><svg><use href="#i-play"/></svg>Watch the trailer<span class="btn-meta">1:04</span></button>
         </div>
-        <a class="release-link" href="https://github.com/ResetSmith/cronomicon/releases/latest"><span class="tag">v2.0.5</span>Latest release notes</a>
+        <a class="release-link" href="https://github.com/ResetSmith/cronomicon/releases/latest"><span class="tag">v2.2.0</span>Latest release notes</a>
       </div>
       <div class="hero-emblem">
         <svg class="bezel" viewBox="0 0 400 400" aria-hidden="true" id="bezel"></svg>
@@ -704,7 +704,7 @@
     -e CRONOMICON_DEV_AUTH=true \
     -e CRONOMICON_DEV_SEED=true \
     -e CRONOMICON_COOKIE_SECURE=false \
-    ghcr.io/resetsmith/cronomicon:2.0.5</pre>
+    ghcr.io/resetsmith/cronomicon:2.2.0</pre>
         <p class="code-foot">Open <code>http://localhost:8080</code> and choose <strong>Developer login</strong>. It skips single sign-on and loads sample data, which disappears when the container stops. Demo mode makes anyone who can reach the port an administrator, so keep it bound to <code>127.0.0.1</code>.</p>
       </div>
       <div class="code">
@@ -712,7 +712,7 @@
 <pre id="deploy-cmd" tabindex="0" aria-label="Command to run the Cronomicon container image"><span class="prompt">$ </span>docker run -d -p 8080:8080 \
     -v /var/lib/cronomicon:/var/lib/cronomicon \
     --env-file cronomicon.env \
-    ghcr.io/resetsmith/cronomicon:2.0.5</pre>
+    ghcr.io/resetsmith/cronomicon:2.2.0</pre>
       </div>
       <div class="code">
         <div class="code-bar"><span>Add a runner</span><span class="src">token from Runners, single use</span></div>
