@@ -12,8 +12,8 @@ The home page for [Cronomicon](https://github.com/ResetSmith/cronomicon). It is 
 | `assets/css/site.css` | Styles, including the `@font-face` blocks. Tokens match the app's `theme.ts` and the manuals' light palette |
 | `assets/js/site.js` | Theme toggle, product tour tabs, the trailer dialog, copy buttons, workflow replay, and the Score timeline |
 | `assets/fonts/` | WOFF2 subsets copied from `frontend/public/fonts/` (SIL OFL, licence included) |
-| `assets/img/shots/` | App screenshots, dark and light, captured from v2.0.1 with the demo seed |
-| `assets/media/` | The 40-second walkthrough at 1920×1200 (WebM and MP4) plus its poster frame, recorded from v2.0.1 with the demo seed; and the 64-second trailer (`trailer.webm`, `trailer.mp4`, `trailer-720.mp4` for small screens, `trailer.en.vtt` captions, `trailer-poster.webp`), played in the dialog the hero's **Watch the trailer** button opens and reachable directly at `/#trailer` |
+| `assets/img/shots/` | App screenshots, dark and light, captured from v2.5.3 with the staged demo (`cronomicon-media/site/shoot.mjs`) |
+| `assets/media/` | The 40-second walkthrough at 1920×1200 (WebM and MP4) plus its poster frame, recorded from v2.5.3 with the staged demo (`cronomicon-media/site/record.mjs`); and the 64-second trailer (`trailer.webm`, `trailer.mp4`, `trailer-720.mp4` for small screens, `trailer.en.vtt` captions, `trailer-poster.webp`), played in the dialog the hero's **Watch the trailer** button opens and reachable directly at `/#trailer` |
 | `CNAME` | `cronomicon.io`, the custom domain for a branch-based Pages deploy |
 | `.nojekyll` | Tells Pages to serve the files as-is |
 | `robots.txt`, `sitemap.xml`, `site.webmanifest` | Crawlers and install metadata |
