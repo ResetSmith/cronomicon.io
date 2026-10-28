@@ -242,14 +242,14 @@
     btn.addEventListener("click", function () {
       timers.forEach(clearTimeout); timers = [];
       btn.disabled = true;
-      ["plan", "apply", "smoke", "audit"].forEach(function (s) { set(s, "queued"); });
+      ["check", "deploy", "smoke", "audit"].forEach(function (s) { set(s, "queued"); });
       set("notify", "skipped");
       statusText.textContent = "Running…";
       var fast = reduceMotion ? 0 : 1;
       var plan = [
-        [0, function () { set("plan", "running"); }],
-        [1400, function () { set("plan", "success"); set("apply", "running"); }],
-        [2900, function () { set("apply", "success"); set("smoke", "running"); set("audit", "running"); }],
+        [0, function () { set("check", "running"); }],
+        [1400, function () { set("check", "success"); set("deploy", "running"); }],
+        [2900, function () { set("deploy", "success"); set("smoke", "running"); set("audit", "running"); }],
         [4100, function () { set("audit", "success"); }],
         [4700, function () { set("smoke", "success"); statusText.textContent = "Last run: success, just now"; btn.disabled = false; }]
       ];
@@ -278,7 +278,7 @@
 
     // Lanes, top to bottom. A job with two schedules shares its lane.
     var JOBS = [
-      { lane: 0, name: "terraform-plan-prod", sched: "business-hours", cron: "30 9-17/4 * * 1-5", dur: 5 },
+      { lane: 0, name: "ansible-drift-check", sched: "business-hours", cron: "30 9-17/4 * * 1-5", dur: 5 },
       { lane: 1, name: "ansible-patch-tuesday", sched: "patch", cron: "0 3 * * 2", dur: 14 },
       { lane: 1, name: "ansible-patch-tuesday", sched: "canary", cron: "0 15 * * *", dur: 6 },
       { lane: 2, name: "cert-renewal", sched: "daily", cron: "0 4 * * *", dur: 3 },

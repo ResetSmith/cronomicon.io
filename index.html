@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cronomicon, the script orchestrator</title>
-  <meta name="description" content="Cronomicon schedules and runs Bash, Ansible, Terraform, PowerShell, Perl and Python jobs from one web console, across every host, department and network zone. One Go binary, one SQLite file. Open source, Apache-2.0.">
+  <meta name="description" content="Cronomicon schedules and runs Bash, Ansible, PowerShell, Perl and Python jobs from one web console, across every host, department and network zone. One Go binary, one SQLite file. Open source, Apache-2.0.">
   <meta name="theme-color" content="#0a1119" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#f4f6fa" media="(prefers-color-scheme: light)">
   <link rel="canonical" href="https://cronomicon.io/">
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cronomicon">
   <meta property="og:title" content="Cronomicon: ancient rites of scheduling, made easy">
-  <meta property="og:description" content="Schedule and orchestrate Bash, Ansible, Terraform, PowerShell, Perl and Python jobs from one binary.">
+  <meta property="og:description" content="Schedule and orchestrate Bash, Ansible, PowerShell, Perl and Python jobs from one binary.">
   <meta property="og:url" content="https://cronomicon.io/">
   <meta property="og:image" content="https://cronomicon.io/assets/img/og-image.png">
   <meta property="og:image:width" content="1280">
@@ -120,7 +120,7 @@
     <div class="hero-grid">
       <div>
         <h1>Ancient rites of scheduling, made easy.</h1>
-        <p class="lede">Cronomicon schedules and runs your <strong>Bash, Ansible, Terraform, PowerShell, Perl and Python</strong> jobs from one web console, across every host, department and network zone. It ships as one Go binary with one SQLite file, and it’s open source.</p>
+        <p class="lede">Cronomicon schedules and runs your <strong>Bash, Ansible, PowerShell, Perl and Python</strong> jobs from one web console, across every host, department and network zone. It ships as one Go binary with one SQLite file, and it’s open source.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="https://github.com/ResetSmith/cronomicon"><svg><use href="#i-github"/></svg>Get Cronomicon</a>
           <a class="btn btn-ghost" href="#tour">Take the tour</a>
@@ -167,7 +167,6 @@
       <ul>
         <li class="lang" style="--c:#45b26b"><i></i>bash</li>
         <li class="lang" style="--c:#e05a5a"><i></i>ansible</li>
-        <li class="lang" style="--c:#8f6ad8"><i></i>terraform</li>
         <li class="lang" style="--c:#4da3d9"><i></i>powershell</li>
         <li class="lang" style="--c:#7d8fd6"><i></i>perl</li>
         <li class="lang" style="--c:#e3c14d"><i></i>python</li>
@@ -290,7 +289,7 @@
           <div class="tour-caption">
             <p>Every ad-hoc run goes through the <strong>Run dialog</strong>.</p>
             <ol class="tour-points">
-              <li id="run-p1"><strong>Five sections.</strong> Inputs, target hosts, executor and runner, timing, and advanced overrides.</li>
+              <li id="run-p1"><strong>Five sections.</strong> Inputs, target hosts, where it will run, timing, and advanced overrides.</li>
               <li id="run-p2"><strong>Timing.</strong> Run now, or defer the run to a later time.</li>
               <li id="run-p3"><strong>This run.</strong> Exactly what will run, before you confirm.</li>
               <li id="run-p4"><strong>Confirm.</strong> Nothing runs until you press Run now.</li>
@@ -379,8 +378,8 @@
       <ol class="steps">
         <li>
           <h3>Register a script</h3>
-          <p>A playbook, a <code>.tf</code> directory or a shell script. Cronomicon scans it for the environment variables it reads, so you know what to define before the first run.</p>
-          <div class="parts"><span class="part">backup-db.sh</span><span class="part">patch.yml</span><span class="part">plan.tf</span></div>
+          <p>A playbook, a PowerShell or Python script, or a shell script. Cronomicon scans it for the environment variables it reads, so you know what to define before the first run.</p>
+          <div class="parts"><span class="part">backup-db.sh</span><span class="part">patch.yml</span><span class="part">export.py</span></div>
         </li>
         <li>
           <h3>Bind it to a scope and a schedule</h3>
@@ -416,7 +415,7 @@
   <span class="k">retries</span>: 2</pre>
         </div>
         <div class="dual">
-          <div><b>Keep it in Git <span class="src-badge git">git</span></b>Definitions sync from a GitLab repository on push. Validate them in CI with <code>cronomicon validate</code>, and review changes like any other code.</div>
+          <div><b>Keep it in Git <span class="src-badge git">git</span></b>Each agency’s definitions sync from its own GitLab repository on push. Validate them in CI with <code>cronomicon validate</code>, and review changes like any other code.</div>
           <div><b>Or compose it in the app <span class="src-badge app">cronomicon</span></b>Build jobs, workflows and schedules in the browser and they go live immediately. Every edit keeps a revision you can restore.</div>
         </div>
       </div>
@@ -446,7 +445,7 @@
         <h3 id="gates-h">The gates</h3>
         <p>Each trigger type goes through the gates that apply to it before a run is queued. A refused run is recorded with the reason, never silently dropped.</p>
         <div class="gate"><svg><use href="#i-check"/></svg><div><b>Pause and freeze</b><span>Stop one job, or everything, for a maintenance window.</span></div></div>
-        <div class="gate"><svg><use href="#i-check"/></svg><div><b>Working calendars</b><span>Skip holidays and blackout dates. A calendar can only prevent runs, never cause them.</span></div></div>
+        <div class="gate"><svg><use href="#i-check"/></svg><div><b>Working calendars</b><span>Forbid holidays and blackout dates, or allow only certain days, on a schedule, a job or a workflow. A calendar can only prevent runs, never cause them.</span></div></div>
         <div class="gate"><svg><use href="#i-check"/></svg><div><b>Fleet capacity</b><span>Cap concurrent runs, then queue, skip or run in parallel per job.</span></div></div>
         <div class="gate"><svg><use href="#i-check"/></svg><div><b>Enabled and in use</b><span>No trigger can start a disabled job or one in the recycle bin.</span></div></div>
       </aside>
@@ -471,7 +470,7 @@
         </div>
         <div class="diagram-scroll" tabindex="0" role="region" aria-label="Workflow diagram, scrollable">
           <svg class="wf" id="wf" viewBox="0 0 960 276" role="img" aria-labelledby="wf-title">
-            <title id="wf-title">Workflow graph: terraform-plan-prod runs first. On success, terraform-apply-prod runs with the VERSION output from the plan, then smoke-test and disk-usage-audit run in parallel. On failure, notify-oncall runs instead.</title>
+            <title id="wf-title">Workflow graph: ansible-check-prod runs first. On success, ansible-deploy-prod runs with the VERSION output from the check, then smoke-test and disk-usage-audit run in parallel. On failure, notify-oncall runs instead.</title>
             <defs>
               <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrow" d="M0 0 10 5 0 10z"/></marker>
               <marker id="ah-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrow gold" d="M0 0 10 5 0 10z"/></marker>
@@ -491,21 +490,21 @@
             <rect class="d-group" x="662" y="22" width="284" height="140" rx="8"/>
             <text class="d-label" x="678" y="16">Parallel group</text>
 
-            <g class="step" data-step="plan">
+            <g class="step" data-step="check">
               <rect class="d-halo" x="22" y="135" width="208" height="60" rx="6"/>
               <rect class="d-node" x="24" y="137" width="202" height="56" rx="4"/>
-              <rect class="d-type" x="24" y="137" width="4" height="56" fill="#8f6ad8"/>
+              <rect class="d-type" x="24" y="137" width="4" height="56" fill="#e05a5a"/>
               <circle class="d-status success" cx="206" cy="155" r="5"/>
-              <text class="d-title mono" x="42" y="160">terraform-plan-prod</text>
-              <text class="d-sub" x="42" y="179">Terraform, emits VERSION</text>
+              <text class="d-title mono" x="42" y="160">ansible-check-prod</text>
+              <text class="d-sub" x="42" y="179">Ansible, emits VERSION</text>
             </g>
-            <g class="step" data-step="apply">
+            <g class="step" data-step="deploy">
               <rect class="d-halo" x="378" y="62" width="224" height="60" rx="6"/>
               <rect class="d-node" x="380" y="64" width="220" height="56" rx="4"/>
-              <rect class="d-type" x="380" y="64" width="4" height="56" fill="#8f6ad8"/>
+              <rect class="d-type" x="380" y="64" width="4" height="56" fill="#e05a5a"/>
               <circle class="d-status success" cx="580" cy="82" r="5"/>
-              <text class="d-title mono" x="398" y="87">terraform-apply-prod</text>
-              <text class="d-sub" x="398" y="106">Terraform, reads VERSION=1.4.2</text>
+              <text class="d-title mono" x="398" y="87">ansible-deploy-prod</text>
+              <text class="d-sub" x="398" y="106">Ansible, reads VERSION=1.4.2</text>
             </g>
             <g class="step" data-step="notify">
               <rect class="d-halo" x="378" y="208" width="224" height="60" rx="6"/>
@@ -513,7 +512,7 @@
               <rect class="d-type" x="380" y="210" width="4" height="56" fill="#45b26b"/>
               <circle class="d-status skipped" cx="580" cy="228" r="5"/>
               <text class="d-title mono" x="398" y="233">notify-oncall</text>
-              <text class="d-sub" x="398" y="252">Bash, only if the plan fails</text>
+              <text class="d-sub" x="398" y="252">Bash, only if the check fails</text>
             </g>
             <g class="step" data-step="smoke">
               <rect class="d-halo" x="680" y="32" width="248" height="52" rx="6"/>
@@ -545,7 +544,7 @@
       </div>
 
       <ul class="facts">
-        <li><b>Branch on the result</b>Send a failed plan to the on-call path instead of apply. Branches can nest.</li>
+        <li><b>Branch on the result</b>Send a failed check to the on-call path instead of the deploy. Branches can nest.</li>
         <li><b>Run steps in parallel</b>Group jobs to run side by side. Each step has its own retries, inputs and soft-cancel behaviour.</li>
         <li><b>Pass values between steps</b>A step prints <code>::cronomicon-output name=VERSION::1.4.2</code> and the next step reads <code>VERSION</code> as an environment variable.</li>
         <li><b>Nest and react</b>A workflow can call another workflow, up to three levels deep. Reactions start new runs when one finishes, with a hard depth limit so they can’t loop.</li>
@@ -559,13 +558,13 @@
   <div class="wrap">
     <div class="band-head">
       <h2 id="run-h">Runners dial out. Nothing dials in.</h2>
-      <p>Reach ordinary hosts over SSH, directly or through a bastion. For isolated networks, install a runner agent inside the zone. It polls Cronomicon for work over HTTPS, so the zone needs no inbound firewall rules.</p>
+      <p>Turn on the local runner and the server reaches ordinary hosts over SSH itself, directly or through a bastion, for the agency you choose. For isolated networks, and for every other agency, install a runner agent inside the zone. It polls Cronomicon for work over HTTPS, so the zone needs no inbound firewall rules.</p>
     </div>
 
     <div class="diagram">
       <div class="diagram-scroll" tabindex="0" role="region" aria-label="Topology diagram, scrollable">
         <svg viewBox="0 0 960 420" role="img" aria-labelledby="topo-title">
-          <title id="topo-title">Topology diagram. Operators sign in to the Cronomicon server through single sign-on. The server reaches hosts db-01, web-01 and lb-01 over SSH through a bastion. Runner agents in three isolated zones, agency-alpha, agency-beta and the general pool, poll the server over outbound HTTPS. The server also connects to GitLab, Vault and S3.</title>
+          <title id="topo-title">Topology diagram. Operators sign in to the Cronomicon server through single sign-on. As the local runner, the server reaches hosts db-01, web-01 and lb-01 over SSH through a bastion. Runner agents in three agencies’ isolated zones, agency-alpha, agency-beta and agency-gamma, poll the server over outbound HTTPS. The server also connects to GitLab, Vault and S3.</title>
           <defs>
             <marker id="tah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrow" d="M0 0 10 5 0 10z"/></marker>
             <marker id="tah-p" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="d-arrow primary" d="M0 0 10 5 0 10z"/></marker>
@@ -611,11 +610,11 @@
             <rect class="d-zone-fill" x="670" y="150" width="266" height="110" rx="8"/><rect class="d-zone" x="670" y="150" width="266" height="110" rx="8"/>
             <text class="d-label mono" x="686" y="172">agency-beta</text>
             <rect class="d-node" x="686" y="188" width="116" height="52" rx="4"/><text class="d-title mono" x="698" y="210" style="font-size:12.5px">report-01</text><text class="d-sub" x="698" y="227">perl, python</text>
-            <rect class="d-node" x="808" y="188" width="112" height="52" rx="4"/><text class="d-title mono" x="820" y="210" style="font-size:12.5px">linux-03</text><text class="d-sub" x="820" y="227">terraform</text>
+            <rect class="d-node" x="808" y="188" width="112" height="52" rx="4"/><text class="d-title mono" x="820" y="210" style="font-size:12.5px">linux-03</text><text class="d-sub" x="820" y="227">bash, ansible</text>
           </g>
           <g>
             <rect class="d-zone-fill" x="670" y="280" width="266" height="110" rx="8"/><rect class="d-zone" x="670" y="280" width="266" height="110" rx="8"/>
-            <text class="d-label" x="686" y="302">General pool</text>
+            <text class="d-label mono" x="686" y="302">agency-gamma</text>
             <rect class="d-node" x="686" y="318" width="116" height="52" rx="4"/><text class="d-title mono" x="698" y="340" style="font-size:12.5px">win-01</text><text class="d-sub" x="698" y="357">powershell</text>
             <rect class="d-node" x="808" y="318" width="112" height="52" rx="4"/><text class="d-title mono" x="820" y="340" style="font-size:12.5px">linux-04</text><text class="d-sub" x="820" y="357">bash</text>
           </g>
@@ -642,7 +641,7 @@
 
     <div class="topo-notes">
       <p><b style="color:var(--text)">Isolation is set by operators.</b> Each scope belongs to an agency, which is a department or network zone. A job is only handed to a runner in the same agency. Runners can’t choose their own agency.</p>
-      <p><b style="color:var(--text)">Work goes where it can run.</b> Runners advertise what they can do, such as Ansible collections, Vault access or Terraform. A job waits for a runner that meets its requirements, and you can pin a run to a tagged runner.</p>
+      <p><b style="color:var(--text)">Work goes where it can run.</b> Runners advertise what they can do, such as Ansible collections, Vault access or Python. A job waits for a runner that meets its requirements, and binding a scope to particular runners keeps its jobs on them.</p>
       <p><b style="color:var(--text)">Checkouts are opt-in.</b> Running full Ansible projects requires an allowlisted repository, a commit pinned by the server, a read-only deploy key, and a secret scan of the checked-out tree.</p>
     </div>
   </div>
@@ -681,7 +680,7 @@
         <div><dt>Secrets by reference</dt><dd>Stored secrets are encrypted with AES-256-GCM, or read from HashiCorp Vault at dispatch. Become-passwords are never passed as environment variables.</dd></div>
         <div><dt>Masked everywhere</dt><dd>Secret values, SSH credentials and per-run overrides are replaced with <code>[REDACTED]</code> in run logs and the audit stream before anything is written.</dd></div>
         <div><dt>A complete record</dt><dd>Runs, config changes, pushes and syncs land in one Activity feed. Retention is set per data type, and logs can be archived to S3.</dd></div>
-        <div><dt>Calendars and SLAs</dt><dd>Working calendars skip holidays and change freezes. SLA deadlines flag late runs, and missed-run detection catches schedules that never fired.</dd></div>
+        <div><dt>Calendars and SLAs</dt><dd>Working calendars skip holidays and change freezes, and agencies copy shared ones from a central catalogue. SLA deadlines flag late runs, and missed-run detection catches schedules that never fired.</dd></div>
         <div><dt>Undo built in</dt><dd>Every definition keeps a revision history. Deleted jobs go to a recycle bin until an admin restores or purges them.</dd></div>
       </dl>
     </div>
@@ -724,7 +723,7 @@
         <dt>Runtime</dt><dd>One static Go binary, UI embedded</dd>
         <dt>State</dt><dd>SQLite, <code>/var/lib/cronomicon/cronomicon.db</code></dd>
         <dt>Sign-in</dt><dd>OIDC or trusted-header SSO</dd>
-        <dt>Execution</dt><dd>Built-in SSH, plus runner agents on Linux and Windows</dd>
+        <dt>Execution</dt><dd>SSH from the server (the local runner), plus runner agents on Linux and Windows</dd>
         <dt>Metrics</dt><dd>Prometheus at <code>/metrics</code></dd>
         <dt>Backups</dt><dd>Snapshots to S3 with <code>VACUUM INTO</code></dd>
         <dt>License</dt><dd>Apache-2.0</dd>
